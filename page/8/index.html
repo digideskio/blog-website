@@ -76,7 +76,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/11/08/网络/数据链路层/" title="数据链路层" itemprop="url">数据链路层</a>
+      <a href="/2015/11/08/网络/网络层/" title="网络层" itemprop="url">网络层</a>
   </h1>
   <p class="article-author">By
        
@@ -89,47 +89,77 @@
 </header>
     <div class="article-content">
         
-        <p>物理层负责将实际设备过程中的电压的高低,光的闪灭,电波的强弱新号等与二进制0,1进行转换. 而数据链路层则负责将0,1数据集合成帧块后进行传输.</p>
+        <p>网络层通过地址将数据从众多链路中传送到最终地址上.它实现的是终端节点之间的通信. 相比于数据链路层的只能在同一种数据链路中进行数据传输,网络层可以跨数据链路进行数据传输(这一点是通过下面介绍的路由器实现的).说的更加通俗一点是:数据链路层只是负责俩个设备之间的通信,但是如果想要跨多个设备通信的话,就只能借助网络层了.</p>
+<blockquote>
+<p>至于为什么需要网络层呢?是这样的,数据链路只能在同一种介质中进行通信,如果无线想要和以太网进行数据传输的话,单靠数据链路层是没办法完成这个需求的,此时就需要借助网络层的路由器了.</p>
+</blockquote>
+<p>网络层相关协议:</p>
 <ul>
-<li>数据链路段： 数据链路段是指一个被分割的网络.</li>
+<li>ARP</li>
+<li>IP</li>
+<li>ICMP</li>
 </ul>
-<p>网络拓扑： 网络的连接与构成的形态被称为网络拓扑，有以下分类</p>
+<h3 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h3><p>IP的作用分作三部分:</p>
 <ul>
-<li><a href="">总线型</a></li>
-<li><a href="">环形</a></li>
-<li><a href="">星形</a></li>
-<li><a href="">混合型</a></li>
+<li>IP寻址</li>
+<li>路由</li>
+<li>IP分包,组包<br>我们知道MAC地址是用来在同一链路中识别不同计算机的,那么IP地址就是在连接到网络中的所有主机相互识别用的. 因此在连接到网络的所有的主机和路由器必须都设置上自己的IP地址.我们必须时刻记住IP地址只在网络层有效,网络层只是将主机的IP地址放到了数据包的IP首部位置,IP包在网桥或者中继器或者数据链路层是不会被使用到的,在硬件部分只是将IP包转化成一个个的0,1的数据流,在链路层只是对数据连绝真的数据部分进行转发.</li>
 </ul>
-<h3 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h3><p>MAC地址用于识别数据链路中的互联的节点. 不论哪种数据链路的网络(以太网,FDDI,ATM,无线LAN),他们彼此的MAC地址都是唯一的.MAC地址总长46位,一般用16进制表示.</p>
+<p>由于不同的数据链路的MTU值(Maximum Transmission Unit,最大传输单位)是不一样的,比如以太网的MTU为1500bytes,而FDDI则是4352Bytes,ATM则为9180bytes.IP包的长度有可能大于或者小于这些长度,于是就出现了IP包的分片处理. 网络层会将IP包分成一个个相等的较小的包,由链路层发送出去,到了终端网络层再组装起来.</p>
+<p>当IP包生成之后,会根据接收端IP从路由表里边查找接受该数据包的路由或者主机. 然后IP包会被发送给连接路由器或者NIC的驱动程序,实现真正的数据传输.</p>
+<p>网络层接受到传输层发送过来的数据(如:TCP首部+应用层数据),如果由UP模块处理,IP模块就会在数据首部再添加IP首部:</p>
 <ul>
-<li>第一位:单播地址(0)/多播地址(1)</li>
-<li>第2位: 全局地址(0)/本地地址(1)</li>
-<li>第3-24位:由IEEE管理并保证各厂家不重复</li>
-<li>第25-48位:由厂商管理并保证产品之间不重复</li>
+<li>接收端IP</li>
+<li>发送端IP</li>
+<li>判断传输层数据是TCP还是UDP数据的信息</li>
 </ul>
-<h3 id="通信介质"><a href="#通信介质" class="headerlink" title="通信介质"></a>通信介质</h3><p>从通信介质的使用方法来看,网络可以分为共享型介质和非共享型介质:</p>
-<p>共享介质型网络：是指多个设备共享一个通信介质的网络.在这种方式下多个设备使用同一个载波信道进行发送和接受,基本上采用半双工通信.</p>
+<h4 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h4><p>IPV4地址由32位正整数(0/1)表示,每8位一组,分成4组,每一组用<code>.</code>分隔.每一组的最大值是2的8次方也就是255,最小值是0. </p>
+<p>理论上2的32次方,大概是43亿,那么每个NIC都配置一个IP的话(NIC最少可以配置一个IP)那么就会有43亿的计算机可以连接到网络上(但实际上,能连接到网络上的计算机远远达不到这个数量).</p>
+<p>实际上IP地址是由网络和主机俩部分标志组成的.</p>
+<h3 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h3><p>路由器在网络层上连接网络,并对分组报文进行转发. 路由器使用IP地址进行进行处理. 路由器可以连接不同的数据链路,例如连接以太网和一个FDDI.</p>
+<h3 id="ARP"><a href="#ARP" class="headerlink" title="ARP"></a>ARP</h3><p>当我们在写网络程序的时候,无论是HTTP协议还是TCP协议,我们只需要知道对方的IP地址就可以向其发送消息,但是在数据链路层在实际通信时,必须知道对方的MAC地址.</p>
+<p>我们就是通过ARP协议来通过IP地址找到对方的MAC地址的. 当主机A要向主机B发送一个消息时,主机A会尝试从自己的ARP表中查找目标IP的MAC地址. 如果找到了目标MAC地址,就直接向该MAC地址发送消息. 如果找不到MAC地址,主机A就向链路中发送ARP请求,链路中的所有主机和路由器都会对其进行解析. 当主机B与主机A在同一链路中,此时主机B会发送主机A发出的ARP请求与自己的IP地址一致,主机B就会回应一个ARP响应,响应中包含着主机B的MAC地址. 主机A接收到主机B的ARP响应后,会将主机B的MAC地址和IP地址的对应关系,缓存到自己的ARP表中.</p>
+<blockquote>
+<p>ARP是为了提高性能而设计的. 如果每次IP通信都需要进行一次ARP请求,会造成非常大的网络流量</p>
+</blockquote>
+<p>上面我们只是阐述了,在同一链路中找到了目标主机,但是如果找不到呢?</p>
+<blockquote>
+<p>其实还有一种RARP协议,这个协议是将MAC地址定位IP地址的协议,与ARP协议恰恰相反. 平常我们在电脑里设置IP地址时,可以通过设置为自动获取IP地址(通过DHCP实现),但是使用嵌入式设备,我们可能就没有办法通过DHCP来获取IP地址了,那么,我们就需要架设一台RARP服务器,从而在这个设备上注册设备的MAC地址及其IP地址.</p>
+</blockquote>
+<h2 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h2><p>网络地址转换(NAT,Network Address Translation)是用于在本地网络中使用私有地址,在连接互联网时转而使用全局IP地址的技术.NAT技术的踢出是为了解决IPV4地址日益枯竭的问题,即可以使用网关来完成NAT也可以使用NAT路由器来完成.</p>
+<p>首先我们来说说NAT路由器,NAT路由器内部有一张自动生成的用来转换地址的表. 例如在TCP情况下,建立TCP连接首次握手时的SYN包一旦发出,就会在路由器内部生成这个表. 随后收到关闭连接发出FIN包的确认应答时又从表中将其删除.</p>
+<blockquote>
+<p>说到这里,我们要谈一下,IPV4和IPV6之间通信的问题. IPV6的主机是没办法直接与IPV4的主机进行通信的,我們首先要使用NAT-PT技術將IPV6首部替換為IPV4首部,這樣他們二者才能進行通信. NAT-PT技術有很多實現方式,例如結合DNS和IP首部替換的DNS-ALG技術.</p>
+</blockquote>
+<p>NAT有俩种实现方式：</p>
 <ul>
-<li>半双工: 在数据链路上同时只发送或者只接受的通信方式</li>
-<li>全双工: 在数据链路上同时即可以发送也可以接受数据的通信方式</li>
+<li>NAT: 将内网的IP地址替换为网关的IP地址，但是将内网的端口与网关端口进行绑定,也就是公网见到的端口是内网的端口,但是见到的IP是网关的地址.</li>
+<li>NAPT：    使用网关的IP，但端口会选择一个和临时会话对应的临时端口. 这种公网见到的IP地址和端口都是网关设定的.</li>
 </ul>
-<p>共享介质型网络有俩种访问控制方式:</p>
+<p>由于内网可能会跟公网建立俩个连接都采用不同的端口,因此NAPT针对这种情况又分为了俩种类型(需要说明的是不管是那种类型只要建立一个连接就会在网关中建立一个session)</p>
 <ul>
-<li>争用方式:</li>
-<li>令牌传递方式:</li>
+<li>Symmetric NAT型 (对称型): 来自同一个内网的ip俩个seesion会在网关上分配到俩个不同的端口.</li>
+<li>Cone NAT型（圆锥型）:来自同一个内网的ip俩个seesion会在网关上分配同一个端口</li>
 </ul>
-<p>非共享介质:</p>
-<h3 id="分组交换"><a href="#分组交换" class="headerlink" title="分组交换"></a>分组交换</h3><p>目前网络通信方式大致分为俩种：</p>
+<p>Cone NAT又分了3种类型：</p>
 <ul>
-<li>电路交换：这种交换技术主要应用于过去的电话网. 在这种交换中,交换机主要负责数据的中转处理. 计算机之间的连接是通过交换机连接上的,当俩个计算机通信之后,他们俩者就一直占用着这条线路</li>
-<li>分组交换：由于电路交换, 俩台计算机会一直占用某条线路,当有新的计算机连接到这条线路上想要通信时,就只能等当前通信的计算机断开连接,于是噩梦就这样产生了.</li>
+<li>Full Cone NAT（完全圆锥型）：这种NAT，网关会根据session信息将公网发送过来的数据报都都发送到某个内网主机上.</li>
+<li>Address Restricted Cone NAT （地址限制圆锥型）：这种NAT上的内网不会主动接受陌生公网主机的数据报,只有内网向公网主机发送过请求,才会接受那个公网的数据报.</li>
+<li>Port Restricted Cone NAT（端口限制圆锥型）：和第二种NAT类似同样是不会主动接受陌生公网主机的数据报,但是这种NAT更加严苛的是还有端口限制,也就是说它只会接受向某个公网端口发送给请求的数据报.</li>
 </ul>
-<p>在这种情况下,人们提出了分组交换. 即将数据进行分组成多个数据包,每个分组首部已经写入了发送端和接收端地址,然后当分组交换机(路由器)接收到分组数据之后,会将其缓存到自己的缓冲区中,然后再按照先进先出的规则将数据转发出去. 这样在同一条线路上也可以为多个计算机服务.</p>
-<p><img src="https://raw.githubusercontent.com/ming15/blog-website/images/net/%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2.jpg" alt="分组交换"></p>
-<h3 id="VLAN"><a href="#VLAN" class="headerlink" title="VLAN"></a>VLAN</h3><h3 id="网桥"><a href="#网桥" class="headerlink" title="网桥"></a>网桥</h3><p>网桥交换机在数据链路层上连接俩个网络设备. 它使用物理地址(MAC地址)进行处理.</p>
-<p>网桥能够识别数据链路中的数据帧,并将其缓存起来重新生成新的数据帧发送给另一个网段. 得益于网桥的缓存功能,使得网桥能够连接传输速率完全不同的数据链路,并且不限制连接网段的个数.</p>
-<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><h3 id="中继器"><a href="#中继器" class="headerlink" title="中继器"></a>中继器</h3><p>由电缆传过来的电信号或者光信号经由中继器的波形调整和放大再传给另一个电缆</p>
-<p>一般中继器俩段连接的是相同的媒介,但有的中继器也可以连接不同的媒介. 例如同轴电缆与光缆之间的信号调整,但是即使在这种情况下,TA也只是单纯的负责信号在0和1比特流之间的替换,并不判断数据是否有错误. 同时它只负责将电信号转换为光信号,因此不能在不同的媒介之间进行转发.</p>
+<p>Linux的NAT是对称NAT，而不是锥形NAT. 且完全依赖ip_conntrack.</p>
+<p>NAT還有很多潛在的問題:</p>
+<ol>
+<li>無法從NAT的外部向NAT內部直接建立連接.</li>
+<li>轉換表的生成和轉換操作都有一定的开销.</li>
+<li>通信过程中一旦NAT遇到异常需要重新启动时,所有的TCP连接都将被重置</li>
+<li>即使准备俩台NAT做容灾备份,TCP连接还是会被断开.</li>
+</ol>
+<h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><p>我们知道网络其实就是由一个个路由组成的. IP包就是在这一个个的路由间传输,每当路过一个路由的时候我们就说IP数据包经过了一跳. 每当IP包完成一跳时,当前路由器就会指定下一个路由器或者主机.</p>
+<blockquote>
+<p>一跳(Hop)的范围就是从一个主机或者一个路由器的网卡到另一个主机或者路由器网卡之间的区间.</p>
+</blockquote>
+<p>每个主机中都有一个路由控制表,这个表记录着IP数据包在下一步发给哪个路由器.IP包根据这个路由器在各个链路上进行传输.</p>
 
         
         
@@ -154,7 +184,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2015/11/08/网络/数据链路层/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/08/网络/数据链路层/" data-count-type="comments">&nbsp;</a>
+		<a href="/2015/11/08/网络/网络层/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/08/网络/网络层/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -614,6 +644,71 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/10/15/mgits/技术CheckList/" title="技术CheckList" itemprop="url">技术CheckList</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-14T16:00:00.000Z" itemprop="datePublished"> Published 2015-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="FastJSON"><a href="#FastJSON" class="headerlink" title="FastJSON"></a>FastJSON</h2><h3 id="序列化bug"><a href="#序列化bug" class="headerlink" title="序列化bug"></a>序列化bug</h3><p>在项目中运营团队给出了下面这样的一个公告<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">================================================</span><br><span class="line">官方QQ群： <span class="number">467027422</span></span><br><span class="line">官方微信号：gm-xyxmp</span><br><span class="line">微信订阅号：xyxmpsy</span><br><span class="line"></span><br><span class="line">亲爱的小伙伴：</span><br><span class="line"></span><br><span class="line">大家好，老猪给各位请安了！</span><br><span class="line"></span><br><span class="line">首款能交易的<span class="number">3</span>D卡牌游戏，星爷独家正版授权《西游降魔篇<span class="number">3</span>D》</span><br><span class="line">自<span class="number">2015</span>年<span class="number">7</span>月<span class="number">21</span>日正式登陆iOS平台后，大量玩家热情涌入游戏</span><br><span class="line">，老猪我面对此景喜极而泣，为了让更多小伙伴加入到咱们的</span><br><span class="line">大团队中，老猪我决定[FFFF00]<span class="number">10</span>月<span class="number">16</span>日<span class="number">11</span>：<span class="number">00</span>开启新服N23-物华天宝 [-]，</span><br><span class="line">诚邀各位新老玩家的加入！</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">新服开启，精彩纷呈的活动期待各位的参与，丰厚的大礼拿到手</span><br><span class="line">抽筋，在《西游降魔篇<span class="number">3</span>D》西行的途中，让我们一同感受友情，</span><br><span class="line">感受激情，感受无限快乐！</span><br><span class="line"></span><br><span class="line">服务器名称：[FFFF00]N23-物华天宝 [-]</span><br><span class="line">开服时间：[FFFF00]<span class="number">2015</span>年<span class="number">10</span>月<span class="number">16</span>日<span class="number">11</span>：<span class="number">00</span>（周五）[-]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">伴随开服的同时，多个活动前来助阵！</span><br><span class="line">[FFFF00]活动一：连续登陆送豪礼[-]</span><br><span class="line">[FFFF00]活动二：冲级领元宝[-]</span><br><span class="line">[FFFF00]活动三：战力大比拼[-]</span><br><span class="line">[FFFF00]活动四：五星神将双倍抽[-]</span><br><span class="line">[FFFF00]活动五：天天有礼送段小姐[-]</span><br><span class="line">[FFFF00]活动六：累积充值送玉帝[-]</span><br><span class="line">[FFFF00]活动七：每日礼包大回馈[-]</span><br><span class="line">[FFFF00]活动八：首充翻倍送豪礼[-]</span><br><span class="line">[FFFF00]活动九：签到送好礼[-]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">活动详情请查看游戏内公告！</span><br><span class="line">================================================</span><br><span class="line">                                                            《西游降魔篇<span class="number">3</span>D》运营团队</span><br></pre></td></tr></table></figure></p>
+<p>当我将其赋值到一个对象<code>obj#value</code>时,然后使用<code>JSON.toJSONString(obj)</code>的时候遇到了下面的异常:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread <span class="string">"main"</span> java.lang.ArrayIndexOutOfBoundsException: <span class="number">160</span></span><br><span class="line">	at com.alibaba.fastjson.serializer.SerializeWriter.writeStringWithDoubleQuote(SerializeWriter.java:<span class="number">868</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.SerializeWriter.writeStringWithDoubleQuote(SerializeWriter.java:<span class="number">602</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.SerializeWriter.writeString(SerializeWriter.java:<span class="number">1366</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.StringCodec.write(StringCodec.java:<span class="number">49</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.StringCodec.write(StringCodec.java:<span class="number">34</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.JSONSerializer.write(JSONSerializer.java:<span class="number">369</span>)</span><br><span class="line">	at com.alibaba.fastjson.JSON.toJSONString(JSON.java:<span class="number">430</span>)</span><br><span class="line">	at com.alibaba.fastjson.JSON.toJSONString(JSON.java:<span class="number">418</span>)</span><br><span class="line">	at Print1.main(Print1.java:<span class="number">52</span>)</span><br></pre></td></tr></table></figure></p>
+<p>出现的原因是:<code>服务器名称：[FFFF00]N23-物华天宝 [-]</code>物华天宝后面跟的空格，不是我们常用的ascii码为32的空格，而是一个ascii码为160特殊的空格符,导致JSON序列化时失败.</p>
+<h2 id="用户名字符集"><a href="#用户名字符集" class="headerlink" title="用户名字符集"></a>用户名字符集</h2><p>用户可能输入emoji表情符号,这种符号普遍存在iOS与android系统中,这种表情不处理直接存储到MySQL5.5以下的版本会报错</p>
+<blockquote>
+<p>这种符号采用Unicode 6标准4个bytes作为存储单元,MySQL存储这种字符需要修改数据库字符集为utf8mb4,但数据回传给网页或者移动客户端时则需要做兼容处理</p>
+</blockquote>
+<h2 id="日志问题"><a href="#日志问题" class="headerlink" title="日志问题"></a>日志问题</h2><p>在项目的开发过程中不允许使用debug模式, 一定要使用日志分析问题, 因为在线上时候, 没办法使用debug的方式, 因此在记录的日志的时候, 一定要记录的全(每个数据变化都要记录下来), 简(剩下来的就是钱)</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/mgits/">mgits</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/10/15/mgits/技术CheckList/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/10/15/mgits/技术CheckList/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/10/15/linux/Linux常用命令/" title="Linux常用命令" itemprop="url">Linux常用命令</a>
   </h1>
   <p class="article-author">By
@@ -800,71 +895,6 @@
 	
 	  	<span></span>
 		<a href="/2015/10/15/linux/Linux常用命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/10/15/linux/Linux常用命令/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/10/15/mgits/技术CheckList/" title="技术CheckList" itemprop="url">技术CheckList</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
-		
-  <p class="article-time">
-    <time datetime="2015-10-14T16:00:00.000Z" itemprop="datePublished"> Published 2015-10-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="FastJSON"><a href="#FastJSON" class="headerlink" title="FastJSON"></a>FastJSON</h2><h3 id="序列化bug"><a href="#序列化bug" class="headerlink" title="序列化bug"></a>序列化bug</h3><p>在项目中运营团队给出了下面这样的一个公告<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">================================================</span><br><span class="line">官方QQ群： <span class="number">467027422</span></span><br><span class="line">官方微信号：gm-xyxmp</span><br><span class="line">微信订阅号：xyxmpsy</span><br><span class="line"></span><br><span class="line">亲爱的小伙伴：</span><br><span class="line"></span><br><span class="line">大家好，老猪给各位请安了！</span><br><span class="line"></span><br><span class="line">首款能交易的<span class="number">3</span>D卡牌游戏，星爷独家正版授权《西游降魔篇<span class="number">3</span>D》</span><br><span class="line">自<span class="number">2015</span>年<span class="number">7</span>月<span class="number">21</span>日正式登陆iOS平台后，大量玩家热情涌入游戏</span><br><span class="line">，老猪我面对此景喜极而泣，为了让更多小伙伴加入到咱们的</span><br><span class="line">大团队中，老猪我决定[FFFF00]<span class="number">10</span>月<span class="number">16</span>日<span class="number">11</span>：<span class="number">00</span>开启新服N23-物华天宝 [-]，</span><br><span class="line">诚邀各位新老玩家的加入！</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">新服开启，精彩纷呈的活动期待各位的参与，丰厚的大礼拿到手</span><br><span class="line">抽筋，在《西游降魔篇<span class="number">3</span>D》西行的途中，让我们一同感受友情，</span><br><span class="line">感受激情，感受无限快乐！</span><br><span class="line"></span><br><span class="line">服务器名称：[FFFF00]N23-物华天宝 [-]</span><br><span class="line">开服时间：[FFFF00]<span class="number">2015</span>年<span class="number">10</span>月<span class="number">16</span>日<span class="number">11</span>：<span class="number">00</span>（周五）[-]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">伴随开服的同时，多个活动前来助阵！</span><br><span class="line">[FFFF00]活动一：连续登陆送豪礼[-]</span><br><span class="line">[FFFF00]活动二：冲级领元宝[-]</span><br><span class="line">[FFFF00]活动三：战力大比拼[-]</span><br><span class="line">[FFFF00]活动四：五星神将双倍抽[-]</span><br><span class="line">[FFFF00]活动五：天天有礼送段小姐[-]</span><br><span class="line">[FFFF00]活动六：累积充值送玉帝[-]</span><br><span class="line">[FFFF00]活动七：每日礼包大回馈[-]</span><br><span class="line">[FFFF00]活动八：首充翻倍送豪礼[-]</span><br><span class="line">[FFFF00]活动九：签到送好礼[-]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">活动详情请查看游戏内公告！</span><br><span class="line">================================================</span><br><span class="line">                                                            《西游降魔篇<span class="number">3</span>D》运营团队</span><br></pre></td></tr></table></figure></p>
-<p>当我将其赋值到一个对象<code>obj#value</code>时,然后使用<code>JSON.toJSONString(obj)</code>的时候遇到了下面的异常:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread <span class="string">"main"</span> java.lang.ArrayIndexOutOfBoundsException: <span class="number">160</span></span><br><span class="line">	at com.alibaba.fastjson.serializer.SerializeWriter.writeStringWithDoubleQuote(SerializeWriter.java:<span class="number">868</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.SerializeWriter.writeStringWithDoubleQuote(SerializeWriter.java:<span class="number">602</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.SerializeWriter.writeString(SerializeWriter.java:<span class="number">1366</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.StringCodec.write(StringCodec.java:<span class="number">49</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.StringCodec.write(StringCodec.java:<span class="number">34</span>)</span><br><span class="line">	at com.alibaba.fastjson.serializer.JSONSerializer.write(JSONSerializer.java:<span class="number">369</span>)</span><br><span class="line">	at com.alibaba.fastjson.JSON.toJSONString(JSON.java:<span class="number">430</span>)</span><br><span class="line">	at com.alibaba.fastjson.JSON.toJSONString(JSON.java:<span class="number">418</span>)</span><br><span class="line">	at Print1.main(Print1.java:<span class="number">52</span>)</span><br></pre></td></tr></table></figure></p>
-<p>出现的原因是:<code>服务器名称：[FFFF00]N23-物华天宝 [-]</code>物华天宝后面跟的空格，不是我们常用的ascii码为32的空格，而是一个ascii码为160特殊的空格符,导致JSON序列化时失败.</p>
-<h2 id="用户名字符集"><a href="#用户名字符集" class="headerlink" title="用户名字符集"></a>用户名字符集</h2><p>用户可能输入emoji表情符号,这种符号普遍存在iOS与android系统中,这种表情不处理直接存储到MySQL5.5以下的版本会报错</p>
-<blockquote>
-<p>这种符号采用Unicode 6标准4个bytes作为存储单元,MySQL存储这种字符需要修改数据库字符集为utf8mb4,但数据回传给网页或者移动客户端时则需要做兼容处理</p>
-</blockquote>
-<h2 id="日志问题"><a href="#日志问题" class="headerlink" title="日志问题"></a>日志问题</h2><p>在项目的开发过程中不允许使用debug模式, 一定要使用日志分析问题, 因为在线上时候, 没办法使用debug的方式, 因此在记录的日志的时候, 一定要记录的全(每个数据变化都要记录下来), 简(剩下来的就是钱)</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/mgits/">mgits</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/10/15/mgits/技术CheckList/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/10/15/mgits/技术CheckList/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1138,7 +1168,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/08/数据库/数据库事务/" title="数据库事务" itemprop="url">数据库事务</a>
+      <a href="/2015/10/08/mgits/vim/" title="GVIM" itemprop="url">GVIM</a>
   </h1>
   <p class="article-author">By
        
@@ -1151,56 +1181,36 @@
 </header>
     <div class="article-content">
         
-        <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>事务（Transaction）是一个操作序列，它构成了并发执行的基本单元。事务的提出主要是为了解决并发情况下保持数据一致性。</p>
-<p>数据库事务具有ACID特性,即</p>
+        <h1 id="vimrc配置文件"><a href="#vimrc配置文件" class="headerlink" title="_vimrc配置文件"></a>_vimrc配置文件</h1><h2 id="GVIM打开即全屏"><a href="#GVIM打开即全屏" class="headerlink" title="GVIM打开即全屏"></a>GVIM打开即全屏</h2><p><code>au GUIEnter * simalt ~x</code></p>
+<h2 id="设置VeraMono字体"><a href="#设置VeraMono字体" class="headerlink" title="设置VeraMono字体"></a>设置VeraMono字体</h2><p><a href="http://www.vimer.cn/wp-content/uploads/2009/11/VeraMono.ttf" target="_blank" rel="external">VeraMono</a>需要下载安装(百度字体安装就好)<br><code>set guifont=Bitstream_Vera_Sans_Mono:h10:cANSI</code></p>
+<h2 id="python编译"><a href="#python编译" class="headerlink" title="python编译"></a>python编译</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"  </span><br><span class="line">autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m  </span><br><span class="line">autocmd BufRead *.py nmap &lt;F5&gt; :!python %&lt;CR&gt;  </span><br><span class="line">autocmd BufRead *.py nmap &lt;F6&gt; :make&lt;CR&gt;  </span><br><span class="line">autocmd BufRead *.py copen "如果是py文件，则同时打开编译信息窗口</span><br></pre></td></tr></table></figure>
+<h1 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h1><ul>
+<li>搜索：<code>/</code>向下搜索. <code>?</code>向上搜索</li>
+<li>替换： <code>:%s/abc/123/g</code>, 将abc都替换为123</li>
+<li>删除行：<code>dd</code>删除整行. <code>5dd</code>从当前行开始向后删除5整行. <code>D</code>从光标删除到行尾</li>
+<li>删除字符：<code>x</code>向后删除一个字符. <code>X</code>向前删除一个字符</li>
+<li>撤销: <code>u</code></li>
+<li>复制:<code>yy</code>复制一行. <code>5yy</code>从当前行开始向下复制5行</li>
+<li>粘贴: <code>p</code>光标向下移动. <code>P</code>光标不动</li>
+<li>块选择: <code>V</code>多行整行选择. <code>v</code>多行字符选择. <code>ctrl v</code>矩阵方式选择.</li>
+<li>光标移动：<code>$</code>移动到行尾. <code>0</code>移动到行首. <code>G</code>移动到最后一行. <code>gg</code>移动到最一行.</li>
+<li>窗口编辑: <code>：split</code>水平新建窗口. <code>：vsplit</code>垂直分割.</li>
+<li>在窗口间游走: <code>Ctrl W</code> 加 <code>h, j, k, l</code>一起使用</li>
+<li>分页编辑： <code>：tabnew</code>新建分页。 <code>：tabclose</code>关闭当前分页. <code>：tabonly</code>关闭其他所有的分页</li>
+<li>顶部底部跳转： 顶部<code>`, 底部</code>shift + g`</li>
+</ul>
+<h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><h2 id="Pydiction"><a href="#Pydiction" class="headerlink" title="Pydiction "></a><a href="http://www.vim.org/scripts/script.php?script_id=850" target="_blank" rel="external">Pydiction </a></h2><p>python自动补全插件</p>
+<p>配置,<code>_vimrc</code>文件追加<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">filetype plugin on</span><br><span class="line">let g:pydiction_location = <span class="string">'D:/Program Files/Vim/pydiction/complete-dict'</span></span><br></pre></td></tr></table></figure></p>
+<p>然后将<code>pydiction/after/ftplugin/python_pydiction.vim</code>复制到<code>Vim\vimfiles\ftplugin\python_pydiction.vim</code></p>
+<h2 id="The-NERD-tree"><a href="#The-NERD-tree" class="headerlink" title="The NERD tree"></a><a href="http://www.vim.org/scripts/script.php?script_id=1658" target="_blank" rel="external">The NERD tree</a></h2><p>文件树. 将下载下来的压缩包解压到<code>Vim\vimfiles</code></p>
 <ul>
-<li>原子性： 原子性体现在对事务的修改,要么全部执行要么都不执行</li>
-<li>一致性： 保持数据的一致性,例如整数类型的数据大小不能溢出,字符型数据长度不能超过规定范围，保证数据的完整性.</li>
-<li>隔离性： 如果数据库并发执行A,B俩个事务,那么在A事务执行完之前对B事务是不可见的,也就是说,B事务是看不见A事务的中间状态的.</li>
-<li>持久性： 事务完成后,它对数据库的影响是永久的,即使数据库出现异常也是如此.</li>
+<li><code>:NERDTree</code> 打开当前文件所在目录树. 该命令后可跟需要打开的目录路径</li>
+<li><code>:NERDTreeClose</code> 关闭目录树</li>
 </ul>
-<p>隔离级别</p>
-<ul>
-<li><code>Read Uncommitted</code>: 读取未提交的数据,即其他事务已经提交修改但还未提交的数据(这是最低的隔离级别)</li>
-<li><code>Read Committed</code>: 读取已经提交的数据,但是在一个事务中,对同一个项,前后俩次读取的结果可能不同.</li>
-<li><code>Repetable Read</code>: 可重复读取,在一个事务中,对同一个项,确保前后俩次读取的结果一样</li>
-<li><code>Serializable</code>: 可序列话,即数据库的事务是可串行执行的,就像一个事务执行的时候没有别的事务同时在执行<br>我们使用下面的语句来改变数据库的隔离级别<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> [<span class="keyword">SESSION</span>|<span class="keyword">GLOBAL</span>] <span class="keyword">TRANSACTION</span> <span class="keyword">ISOLATION</span> <span class="keyword">LEVEL</span> <span class="keyword">READ</span> UNCOMMITTED | <span class="keyword">READ</span> COMMITTED | REPEATABLE <span class="keyword">READ</span> | <span class="keyword">SERIALIZABLE</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol>
-<li>不带<code>SESSION、GLOBAL</code>的SET命令,只对下一个事务有效</li>
-<li><code>SET SESSION</code> 为当前会话设置隔离模式</li>
-<li><code>SET GLOBAL</code>为以后新建的所有MYSQL连接设置隔离模式（当前连接不包括在内）</li>
-</ol>
-<p>读写异常</p>
-<ul>
-<li><code>Lost Update</code>: 俩个事务并发修改同一个数据,A事务提交成功,B事务提交失败回滚后,A事务的修改都可能会丢失</li>
-<li><code>Dirty Reads</code>: A事务读取了B事务更新却没有提交的数据</li>
-<li><code>Non-Repeatable Reads</code>: 一个事务对同一个数据项的多次读取可能得到不同的结果</li>
-<li><code>Second Lost Updates</code>:俩个事务并发修改同一个数据, B事务可能会覆盖掉A事务的修改</li>
-<li><code>Phantom Reads</code>: A事务进行前后俩次查询,但是在查询过程中出现了B事务向其中插入数据,那么A事务可能读取到未出现的数据</li>
-</ul>
-<p>隔离级别与读写异常的关系<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    LU  DR  NRR  SLU  <span class="keyword">PR</span></span><br><span class="line"><span class="keyword">RU</span>  <span class="keyword">N</span>   Y   Y    Y    <span class="built_in">Y</span></span><br><span class="line">RC  <span class="keyword">N</span>   <span class="keyword">N</span>   Y    Y    <span class="built_in">Y</span></span><br><span class="line">RR  <span class="keyword">N</span>   <span class="keyword">N</span>   <span class="keyword">N</span>   <span class="keyword">N</span>     <span class="built_in">Y</span></span><br><span class="line">S   <span class="keyword">N</span>   <span class="keyword">N</span>   <span class="keyword">N</span>   <span class="keyword">N</span>     <span class="keyword">N</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="事务语句"><a href="#事务语句" class="headerlink" title="事务语句"></a>事务语句</h3><ul>
-<li>开始事物：<code>BEGIN TRANSACTION</code></li>
-<li>提交事物：<code>COMMIT TRANSACTION</code></li>
-<li>回滚事务：<code>ROLLBACK TRANSACTION</code></li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 开启一个事务</span><br><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> db1.<span class="string">`t1`</span>(<span class="keyword">id</span>) <span class="keyword">VALUES</span>(<span class="number">1</span>);</span><br><span class="line"># 提交事务</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"></span><br><span class="line"># 开启事务</span><br><span class="line"><span class="keyword">START</span> <span class="keyword">TRANSACTION</span>;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> db1.<span class="string">`t1`</span>(<span class="keyword">id</span>) <span class="keyword">VALUES</span>(<span class="number">2</span>);</span><br><span class="line"># 回滚刚才的事务</span><br><span class="line"><span class="keyword">ROLLBACK</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h3><h4 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h4><h4 id="写时复制"><a href="#写时复制" class="headerlink" title="写时复制"></a>写时复制</h4><h4 id="多版本并发控制"><a href="#多版本并发控制" class="headerlink" title="多版本并发控制"></a>多版本并发控制</h4><p>Mysql InnoDB存储引擎,InnoDB对每一行维护了俩个隐含的列,一列用于存储行被修改的时间,另一列存储每一行被删除的时间.</p>
-<blockquote>
-<p>这里的时间并不是绝对时间,而是与时间对应的数据库系统的版本号,每当一个事务开始时,InnoDB都会给这个事务分配一个递增的版本号,所以版本号也可以被任务是事务好.对于每一行的查询语句,InnoDB都会把这个查询语句的版本号同这个查询雨具遇到的行的版本号进行对比,然后结合不同的事务隔离级别来决定是否返回改行.</p>
-</blockquote>
-<p>下面以SELECT,DELETE,INSERT,UPDATE为例:</p>
-<h5 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h5><p>只有同时满足下面俩个条件的行才能被返回:</p>
-<ol>
-<li>行的版本号小于等于该事务的版本号</li>
-<li>行的删除版本号要么没有定义,要么大于等于事务的版本号<br>如果行的修改或者删除版本号大于事务号,说明行是被该食物后面启动的事务修改或者删除的 </li>
-</ol>
-<h5 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h5><p>InnoDB直接把该行的删除版本号设置为当前的事务号,相当于标记为删除而不是物理删除</p>
-<h5 id="INSERT"><a href="#INSERT" class="headerlink" title="INSERT"></a>INSERT</h5><p>对于新插入的行,行的修改版本号更新为该事务的事务号</p>
-<h5 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h5><p>更新行的时候,InnoDB会把原来的行复制一份,并把当前的事务号作为改行的修改版本号</p>
-<h3 id="事务异常"><a href="#事务异常" class="headerlink" title="事务异常"></a>事务异常</h3>
+<p>修改_vimrc配置文件,添加映射<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap &lt;F2&gt; :NERDTreeToggle&lt;CR&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="bsh-vim"><a href="#bsh-vim" class="headerlink" title="bsh.vim"></a><a href="http://www.vim.org/scripts/script.php?script_id=1202" target="_blank" rel="external">bsh.vim</a></h2><p>Shell语法高亮</p>
+<p>只需将<code>bsh.vim</code>文件拷贝到<code>Vim\vimfiles\syntax</code>就可以了</p>
+
         
         
         <p class="article-more-link">
@@ -1212,7 +1222,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/数据库/">数据库</a>
+  <a class="article-category-link" href="/categories/mgits/">mgits</a>
 </div>
 
 
@@ -1224,7 +1234,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2015/10/08/数据库/数据库事务/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/10/08/数据库/数据库事务/" data-count-type="comments">&nbsp;</a>
+		<a href="/2015/10/08/mgits/vim/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/10/08/mgits/vim/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1361,10 +1371,6 @@
 		  
 		
 		  
-			<li><a href="/categories/Java/" title="Java">Java<sup>1</sup></a></li>
-		  
-		
-		  
 			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>28</sup></a></li>
 		  
 		
@@ -1373,7 +1379,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java工具/" title="Java工具">Java工具<sup>7</sup></a></li>
+			<li><a href="/categories/Java工具/" title="Java工具">Java工具<sup>8</sup></a></li>
 		  
 		
 		  

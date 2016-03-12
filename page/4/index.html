@@ -139,68 +139,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/12/28/jmh/JMH初探/" title="JMH 环境搭建" itemprop="url">JMH 环境搭建</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
-		
-  <p class="article-time">
-    <time datetime="2015-12-27T16:00:00.000Z" itemprop="datePublished"> Published 2015-12-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>JMH是一个用于java或者其他JVM语言的, 提供构建,运行,分析多种基准的工具.<br>我们通过使用引入依赖的方式,在我们的项目中添加基准测试<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.openjdk.jmh<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jmh-generator-annprocess<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.openjdk.jmh<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jmh-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>但是, JMH的官方推荐使用方式是,使用MAVEN构建一个基于要测试项目的一个独立的项目.</p>
-<p>我们使用archetype生成基准测试项目<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate -DinteractiveMode=<span class="keyword">false</span> -DarchetypeGroupId=org.openjdk.jmh -DarchetypeArtifactId=jmh-java-benchmark-archetype -DgroupId=wang.ming15.jmh -DartifactId=test -Dversion=<span class="number">1.0</span></span><br></pre></td></tr></table></figure></p>
-<p>执行完该命令后会生成一个新的项目,里面会有一个测试文件<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> wang.ming15.jmh;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.openjdk.jmh.annotations.Benchmark;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBenchmark</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Benchmark</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// This is a demo/sample template for building your JMH benchmarks. Edit as needed.</span></span><br><span class="line">        <span class="comment">// Put your benchmark code here.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后我们依赖要测试的项目就可以在新的项目中写基准测试到代码了</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JMH/">JMH</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/12/28/jmh/JMH初探/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/12/28/jmh/JMH初探/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2015/12/28/jmh/JMHSample_01_HelloWorld/" title="01_HelloWorld" itemprop="url">01_HelloWorld</a>
   </h1>
   <p class="article-author">By
@@ -348,6 +286,68 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/12/28/jmh/JMH初探/" title="JMH 环境搭建" itemprop="url">JMH 环境搭建</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-27T16:00:00.000Z" itemprop="datePublished"> Published 2015-12-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>JMH是一个用于java或者其他JVM语言的, 提供构建,运行,分析多种基准的工具.<br>我们通过使用引入依赖的方式,在我们的项目中添加基准测试<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.openjdk.jmh<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jmh-generator-annprocess<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.openjdk.jmh<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jmh-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>但是, JMH的官方推荐使用方式是,使用MAVEN构建一个基于要测试项目的一个独立的项目.</p>
+<p>我们使用archetype生成基准测试项目<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate -DinteractiveMode=<span class="keyword">false</span> -DarchetypeGroupId=org.openjdk.jmh -DarchetypeArtifactId=jmh-java-benchmark-archetype -DgroupId=wang.ming15.jmh -DartifactId=test -Dversion=<span class="number">1.0</span></span><br></pre></td></tr></table></figure></p>
+<p>执行完该命令后会生成一个新的项目,里面会有一个测试文件<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> wang.ming15.jmh;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.openjdk.jmh.annotations.Benchmark;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBenchmark</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Benchmark</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// This is a demo/sample template for building your JMH benchmarks. Edit as needed.</span></span><br><span class="line">        <span class="comment">// Put your benchmark code here.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后我们依赖要测试的项目就可以在新的项目中写基准测试到代码了</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JMH/">JMH</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/12/28/jmh/JMH初探/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/12/28/jmh/JMH初探/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/12/23/java综合工具/正则表达式/" title="Java Verbal Expressions 初探" itemprop="url">Java Verbal Expressions 初探</a>
   </h1>
   <p class="article-author">By
@@ -408,6 +408,64 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/12/23/http客户端/Feign/" title="Feign 初探" itemprop="url">Feign 初探</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2015-12-22T16:00:00.000Z" itemprop="datePublished"> Published 2015-12-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>RESTful 服务的HTTP客户端连接器<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> feign.gson.GsonDecoder;</span><br><span class="line"><span class="keyword">import</span> feign.gson.GsonEncoder;</span><br><span class="line"><span class="keyword">import</span> feign.httpclient.ApacheHttpClient;</span><br><span class="line"><span class="keyword">import</span> feign.slf4j.Slf4jLogger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.<span class="built_in">List</span>;</span><br><span class="line"></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>... args) &#123;</span><br><span class="line">		GitHub github = Feign.builder()</span><br><span class="line">				.decoder(<span class="keyword">new</span> GsonDecoder())		<span class="comment">// 设置解码器, 我们使用Gson将应答解析成Contributor</span></span><br><span class="line">				.encoder(<span class="keyword">new</span> GsonEncoder())</span><br><span class="line">				.logger(<span class="keyword">new</span> Slf4jLogger())		<span class="comment">// 设置日志</span></span><br><span class="line">				.client(<span class="keyword">new</span> ApacheHttpClient())		<span class="comment">// 我们使用Apache的HttpClient组件</span></span><br><span class="line">				.target(GitHub.<span class="keyword">class</span>, <span class="string">"https://api.github.com"</span>);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">List</span>&lt;Contributor&gt; contributors = github.contributors(<span class="string">"netflix"</span>, <span class="string">"feign"</span>);</span><br><span class="line">		System.out.println(<span class="string">"netflix :"</span> + contributors.size());</span><br><span class="line"></span><br><span class="line">		<span class="built_in">List</span>&lt;Contributor&gt; contributors1 = github.contributors(<span class="string">"ming15"</span>, <span class="string">"VertxServer"</span>);</span><br><span class="line">		System.out.println(<span class="string">"ming15 :"</span> + contributors1.size());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">GitHub</span> </span>&#123;</span><br><span class="line">	<span class="meta">@RequestLine</span>(<span class="string">"GET /repos/&#123;owner&#125;/&#123;repo&#125;/contributors"</span>)</span><br><span class="line">	<span class="meta">@Headers</span>(<span class="string">"Content-Type: application/json"</span>)</span><br><span class="line">	<span class="built_in">List</span>&lt;Contributor&gt; contributors(<span class="meta">@Param</span>(<span class="string">"owner"</span>) <span class="built_in">String</span> owner, <span class="meta">@Param</span>(<span class="string">"repo"</span>) <span class="built_in">String</span> repo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contributor</span> </span>&#123;</span><br><span class="line">	<span class="built_in">String</span> login;</span><br><span class="line">	<span class="built_in">int</span> contributions;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/http客户端/">http客户端</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/12/23/http客户端/Feign/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/12/23/http客户端/Feign/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/12/23/序列化工具/fastjson/" title="fastjson" itemprop="url">fastjson</a>
   </h1>
   <p class="article-author">By
@@ -449,64 +507,6 @@
 	
 	  	<span></span>
 		<a href="/2015/12/23/序列化工具/fastjson/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/12/23/序列化工具/fastjson/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/12/23/http客户端/Feign/" title="Feign 初探" itemprop="url">Feign 初探</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
-		
-  <p class="article-time">
-    <time datetime="2015-12-22T16:00:00.000Z" itemprop="datePublished"> Published 2015-12-23</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>RESTful 服务的HTTP客户端连接器<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> feign.gson.GsonDecoder;</span><br><span class="line"><span class="keyword">import</span> feign.gson.GsonEncoder;</span><br><span class="line"><span class="keyword">import</span> feign.httpclient.ApacheHttpClient;</span><br><span class="line"><span class="keyword">import</span> feign.slf4j.Slf4jLogger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.<span class="built_in">List</span>;</span><br><span class="line"></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>... args) &#123;</span><br><span class="line">		GitHub github = Feign.builder()</span><br><span class="line">				.decoder(<span class="keyword">new</span> GsonDecoder())		<span class="comment">// 设置解码器, 我们使用Gson将应答解析成Contributor</span></span><br><span class="line">				.encoder(<span class="keyword">new</span> GsonEncoder())</span><br><span class="line">				.logger(<span class="keyword">new</span> Slf4jLogger())		<span class="comment">// 设置日志</span></span><br><span class="line">				.client(<span class="keyword">new</span> ApacheHttpClient())		<span class="comment">// 我们使用Apache的HttpClient组件</span></span><br><span class="line">				.target(GitHub.<span class="keyword">class</span>, <span class="string">"https://api.github.com"</span>);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">List</span>&lt;Contributor&gt; contributors = github.contributors(<span class="string">"netflix"</span>, <span class="string">"feign"</span>);</span><br><span class="line">		System.out.println(<span class="string">"netflix :"</span> + contributors.size());</span><br><span class="line"></span><br><span class="line">		<span class="built_in">List</span>&lt;Contributor&gt; contributors1 = github.contributors(<span class="string">"ming15"</span>, <span class="string">"VertxServer"</span>);</span><br><span class="line">		System.out.println(<span class="string">"ming15 :"</span> + contributors1.size());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">GitHub</span> </span>&#123;</span><br><span class="line">	<span class="meta">@RequestLine</span>(<span class="string">"GET /repos/&#123;owner&#125;/&#123;repo&#125;/contributors"</span>)</span><br><span class="line">	<span class="meta">@Headers</span>(<span class="string">"Content-Type: application/json"</span>)</span><br><span class="line">	<span class="built_in">List</span>&lt;Contributor&gt; contributors(<span class="meta">@Param</span>(<span class="string">"owner"</span>) <span class="built_in">String</span> owner, <span class="meta">@Param</span>(<span class="string">"repo"</span>) <span class="built_in">String</span> repo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contributor</span> </span>&#123;</span><br><span class="line">	<span class="built_in">String</span> login;</span><br><span class="line">	<span class="built_in">int</span> contributions;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/http客户端/">http客户端</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/12/23/http客户端/Feign/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/12/23/http客户端/Feign/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -790,10 +790,6 @@
 		  
 		
 		  
-			<li><a href="/categories/Java/" title="Java">Java<sup>1</sup></a></li>
-		  
-		
-		  
 			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>28</sup></a></li>
 		  
 		
@@ -802,7 +798,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java工具/" title="Java工具">Java工具<sup>7</sup></a></li>
+			<li><a href="/categories/Java工具/" title="Java工具">Java工具<sup>8</sup></a></li>
 		  
 		
 		  

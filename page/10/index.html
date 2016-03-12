@@ -76,151 +76,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/09/08/JavaSE/java8 流/" title="java8 流" itemprop="url">java8 流</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
-		
-  <p class="article-time">
-    <time datetime="2015-09-07T16:00:00.000Z" itemprop="datePublished"> Published 2015-09-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="流"><a href="#流" class="headerlink" title="流"></a>流</h1><p>java8中新添加的流又称为<code>Streams API</code>. 它是对集合（Collection）对象功能的增强，它专注于对集合对象进行各种非常便利、高效的聚合操作（aggregate operation），或者大批量数据操作 (bulk data operation).</p>
-<p>接下来我们构建一个流:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">      .filter(ele -&gt; ele.equals(<span class="string">"123"</span>))</span><br><span class="line">      .count();</span><br></pre></td></tr></table></figure></p>
-<p>我们通过上述代码构建流一个流,这里有俩个概念要说:</p>
-<ul>
-<li>惰性求值方法:像<code>filter</code>方法,它只是在刻画Stream,它并不会被调用.(在Stream方法中凡事返回Stream对象的都是这种方法)</li>
-<li>及早求值方法:像<code>count</code>方法,它会从Stream中最终产生值.(在Stream方法中凡事返回空或者另一个值都是这种方法)</li>
-</ul>
-<h2 id="常用的流操作"><a href="#常用的流操作" class="headerlink" title="常用的流操作"></a>常用的流操作</h2><h3 id="collect"><a href="#collect" class="headerlink" title="collect()"></a>collect()</h3><p>该方法会产生一个列表,是一个及早求值方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">      .filter(ele -&gt; ele.equals(<span class="string">"123"</span>))</span><br><span class="line">      .collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
-<p>当然我们还可以调用<code>Collectors.toSet()</code>等其他方法,构建其他集合</p>
-<h3 id="map"><a href="#map" class="headerlink" title="map"></a>map</h3><p><img src="https://raw.githubusercontent.com/ming15/blog-website/images/java8/map.jpg" alt=""><br>该操作会将一个流中的值转换为一个新的流<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">      .map(num -&gt; &#123;</span><br><span class="line">          <span class="keyword">if</span> (num &gt; <span class="number">1</span>) &#123;</span><br><span class="line">             <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">          &#125;</span><br><span class="line">       &#125;)</span><br><span class="line">       .collect(Collectors.toSet())</span><br><span class="line">       .forEach(ele -&gt; System.out.println(ele));</span><br></pre></td></tr></table></figure></p>
-<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p><img src="https://raw.githubusercontent.com/ming15/blog-website/images/java8/filter.jpg" alt=""><br>遍历数据并检查其中的元素是否符合某种条件</p>
-<p>这个操作看起来和<code>map</code>很像, 但是<code>map</code>是根据操作的结果产生新的流,而<code>filter</code>是判断流中的数据是否符合条件保留下来<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">               .filter(ele -&gt; &#123;</span><br><span class="line">                   <span class="keyword">if</span> (ele &gt; <span class="number">1</span>) &#123;</span><br><span class="line">                       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                       <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;)</span><br><span class="line">               .collect(Collectors.toSet())</span><br><span class="line">               .forEach(ele -&gt; System.out.println(ele));</span><br></pre></td></tr></table></figure></p>
-<h3 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h3><p><img src="https://raw.githubusercontent.com/ming15/blog-website/images/java8/flatMap.jpg" alt=""><br>用于Stream替换值然后将多个流连接到一起</p>
-<p>首先我们看一种情况,流里有俩个列表<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> Stream.of(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>),Arrays.asList(<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>))</span><br><span class="line">                .collect(Collectors.toSet())</span><br><span class="line">                .forEach(ele -&gt; System.out.println(ele));</span><br><span class="line"></span><br><span class="line">输出的结果是:</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">[<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br></pre></td></tr></table></figure></p>
-<p>如果我们想将这俩个列表组合到一起呢?<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Stream.of(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>),Arrays.asList(<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>))</span><br><span class="line">                    .flatMap(list -&gt; &#123;</span><br><span class="line">                        <span class="keyword">return</span> list.stream();</span><br><span class="line">                    &#125;)</span><br><span class="line">                .collect(Collectors.toSet())</span><br><span class="line">                .forEach(ele -&gt; System.out.println(ele));</span><br></pre></td></tr></table></figure></p>
-<p>看到了吧,我们首先讲列表转换成流,然后由<code>flatMap</code>操作将流组合到一起</p>
-<h3 id="max"><a href="#max" class="headerlink" title="max"></a>max</h3><p>查找流中的最大值<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Integer max = Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">                .max(Comparator.comparing(ele -&gt; ele))</span><br><span class="line">                .get();</span><br><span class="line">        System.out.println(max);</span><br></pre></td></tr></table></figure></p>
-<p>我们需要向<code>max</code>操作中传递一个排序的动作. <code>Comparator.comparing()</code>这个静态方法是java8新添加的方法,它实现流一个方便的比较器.以前我们需要比较俩个对象的某项属性的值,现在只需要提供一个取值方法就好了.</p>
-<h3 id="min"><a href="#min" class="headerlink" title="min"></a>min</h3><p>查找流中的最小值<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Integer min = Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">                .min(Comparator.comparing(ele -&gt; ele))</span><br><span class="line">                .get();</span><br><span class="line">        System.out.println(min);</span><br></pre></td></tr></table></figure></p>
-<p>和<code>max</code>相似</p>
-<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h3><p>从一组值生成一个值.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Integer sum = Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">                .reduce((inSum, element) -&gt; &#123;</span><br><span class="line">                    <span class="keyword">return</span> inSum + element;</span><br><span class="line">                &#125;).get();</span><br><span class="line">        System.out.println(sum);</span><br></pre></td></tr></table></figure></p>
-<p><code>reduce</code>中的<code>BinaryOperator</code>类型的lambda表达式第一个参数是上个元素执行<code>reduce</code>操作的结果, 第二个参数是流中的每个元素.</p>
-<p>另外Stream中还有其他的<code>reduce</code>操作,可以指定开始结束的的位置</p>
-<h1 id="元素顺序"><a href="#元素顺序" class="headerlink" title="元素顺序"></a>元素顺序</h1><p>在一个有序集合中创建一个流时，流中元素就按照出现的顺序进行排列:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).stream().forEach(ele -&gt; System.out.println(ele));</span><br></pre></td></tr></table></figure></p>
-<p>上面这个输出顺序总是<code>1, 2, 3</code>.</p>
-<p>而如果一个集合本身是无序的话，那么生成的流也是无序的，最后由流生成的集合也是无序的</p>
-<h1 id="使用收集器"><a href="#使用收集器" class="headerlink" title="使用收集器"></a>使用收集器</h1><p><code>java.util.stream.Collectors</code>这是java提供的一种通用的，从流生成复杂值结构的收集器.</p>
-<h2 id="转换成其他集合"><a href="#转换成其他集合" class="headerlink" title="转换成其他集合"></a>转换成其他集合</h2><p>Collectors提供了转换成其他集合的方式</p>
-<ul>
-<li><code>Collectors.toCollection()</code>： 接受一个函数作为参数，来创建集合</li>
-<li><code>Collectors.toConcurrentMap()</code></li>
-<li><code>Collectors.toList()</code>： 不需要指定具体的类型，Stream会自动挑选出合适的类型</li>
-<li><code>Collectors.toMap()</code></li>
-<li><code>Collectors.toSet()</code>： 不需要指定具体的类型，Stream会自动挑选出合适的类型</li>
-</ul>
-<h2 id="groupingBy"><a href="#groupingBy" class="headerlink" title="groupingBy"></a>groupingBy</h2><p>数据分组</p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">		Map&lt;Integer, List&lt;Integer&gt;&gt; group = list.stream().collect(Collectors.groupingBy(ele -&gt; &#123;</span><br><span class="line">			<span class="keyword">if</span> (ele &gt; <span class="number">5</span>) &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 最后结果为</span></span><br><span class="line">&#123;<span class="number">1</span>:[</span><br><span class="line">		<span class="number">10</span>,</span><br><span class="line">		<span class="number">9</span>,</span><br><span class="line">		<span class="number">11</span>,</span><br><span class="line">		<span class="number">6</span>,</span><br><span class="line">		<span class="number">7</span>,</span><br><span class="line">		<span class="number">8</span></span><br><span class="line">	],</span><br><span class="line"> <span class="number">2</span>:[</span><br><span class="line">		<span class="number">1</span>,</span><br><span class="line">		<span class="number">2</span>,</span><br><span class="line">		<span class="number">3</span>,</span><br><span class="line">		<span class="number">2</span>,</span><br><span class="line">		<span class="number">4</span>,</span><br><span class="line">		<span class="number">5</span></span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当然分组的key,我们还可以取其他的类型,这完全取决于我们的返回值<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, List&lt;Integer&gt;&gt; group = list.stream().collect(Collectors.groupingBy(ele -&gt; &#123;</span><br><span class="line">			<span class="keyword">if</span> (ele &gt; <span class="number">5</span>) &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="string">"1"</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="string">"2"</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;));</span><br></pre></td></tr></table></figure></p>
-<h2 id="groupingByConcurrent"><a href="#groupingByConcurrent" class="headerlink" title="groupingByConcurrent"></a>groupingByConcurrent</h2><p>并发版本的<code>group by</code>实现</p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span></span>;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>);</span><br><span class="line">ConcurrentMap&lt;Integer, List&lt;Integer&gt;&gt; result = list.stream().collect(Collectors.groupingByConcurrent(ele -&gt; ele - <span class="number">3</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line">&#123;-<span class="number">2</span>:[<span class="number">1</span>],</span><br><span class="line"> -<span class="number">1</span>:[</span><br><span class="line">		<span class="number">2</span>,</span><br><span class="line">		<span class="number">2</span></span><br><span class="line">	],</span><br><span class="line">  <span class="number">0</span>:[<span class="number">3</span>],</span><br><span class="line">  <span class="number">7</span>:[<span class="number">10</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="partitioningBy"><a href="#partitioningBy" class="headerlink" title="partitioningBy"></a>partitioningBy</h2><p>数据分组,key为<code>True</code>和<code>False</code></p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">Map&lt;Boolean, List&lt;Integer&gt;&gt; result = list.stream().collect(Collectors.partitioningBy(ele -&gt; ele == <span class="number">1</span>));</span><br><span class="line">System.out.println(JSON.toJSONString(result, <span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果为</span></span><br><span class="line">&#123;<span class="keyword">false</span>:[</span><br><span class="line">		<span class="number">10</span>,</span><br><span class="line">		<span class="number">2</span>,</span><br><span class="line">		<span class="number">3</span>,</span><br><span class="line">		<span class="number">2</span>,</span><br><span class="line">		<span class="number">9</span>,</span><br><span class="line">		<span class="number">4</span>,</span><br><span class="line">		<span class="number">5</span>,</span><br><span class="line">		<span class="number">11</span>,</span><br><span class="line">		<span class="number">6</span>,</span><br><span class="line">		<span class="number">7</span>,</span><br><span class="line">		<span class="number">8</span></span><br><span class="line">	],</span><br><span class="line"><span class="keyword">true</span>:[<span class="number">1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="averagingDouble"><a href="#averagingDouble" class="headerlink" title="averagingDouble"></a>averagingDouble</h2><p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToDoubleFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">applyAsDouble</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>);</span><br><span class="line">Double result = list.stream().collect(Collectors.averagingDouble(ele -&gt; ele - <span class="number">3</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line"><span class="number">0.6</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="averagingInt"><a href="#averagingInt" class="headerlink" title="averagingInt"></a>averagingInt</h2><p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToIntFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">applyAsInt</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>);</span><br><span class="line">Double result = list.stream().collect(Collectors.averagingInt(ele -&gt; ele - <span class="number">3</span>));</span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line"><span class="number">0.6</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="averagingLong"><a href="#averagingLong" class="headerlink" title="averagingLong"></a>averagingLong</h2><p>对流中数据进行进行平均数操作</p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToLongFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">applyAsLong</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">Double result = list.stream().collect(Collectors.averagingLong(ele -&gt; ele));</span><br></pre></td></tr></table></figure></p>
-<h2 id="summarizingInt"><a href="#summarizingInt" class="headerlink" title="summarizingInt"></a>summarizingInt</h2><p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToIntFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">applyAsInt</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">IntSummaryStatistics result = list.stream().collect(Collectors.summarizingInt(ele -&gt; ele));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果为</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">"average"</span>:<span class="number">5.666666666666667</span>,</span><br><span class="line">	<span class="string">"count"</span>:<span class="number">12</span>,</span><br><span class="line">	<span class="string">"max"</span>:<span class="number">11</span>,</span><br><span class="line">	<span class="string">"min"</span>:<span class="number">1</span>,</span><br><span class="line">	<span class="string">"sum"</span>:<span class="number">68</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="summarizingLong"><a href="#summarizingLong" class="headerlink" title="summarizingLong"></a>summarizingLong</h2><p>统计流中数据分布</p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToLongFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">applyAsLong</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">LongSummaryStatistics result = list.stream().collect(Collectors.summarizingLong(ele -&gt; ele));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果为</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">"average"</span>:<span class="number">5.666666666666667</span>,</span><br><span class="line">	<span class="string">"count"</span>:<span class="number">12</span>,</span><br><span class="line">	<span class="string">"max"</span>:<span class="number">11</span>,</span><br><span class="line">	<span class="string">"min"</span>:<span class="number">1</span>,</span><br><span class="line">	<span class="string">"sum"</span>:<span class="number">68</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="summarizingDouble"><a href="#summarizingDouble" class="headerlink" title="summarizingDouble"></a>summarizingDouble</h2><p>统计流中数据分布</p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToDoubleFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">applyAsDouble</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">DoubleSummaryStatistics result = list.stream().collect(Collectors.summarizingDouble(ele -&gt; ele));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">"average"</span>:<span class="number">5.666666666666667</span>,</span><br><span class="line">	<span class="string">"count"</span>:<span class="number">12</span>,</span><br><span class="line">	<span class="string">"max"</span>:<span class="number">11</span>,</span><br><span class="line">	<span class="string">"min"</span>:<span class="number">1</span>,</span><br><span class="line">	<span class="string">"sum"</span>:<span class="number">68</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="counting"><a href="#counting" class="headerlink" title="counting"></a>counting</h2><p>统计流中数据数量</p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">Long result = list.stream().collect(Collectors.counting());</span><br></pre></td></tr></table></figure></p>
-<h2 id="maxBy"><a href="#maxBy" class="headerlink" title="maxBy"></a>maxBy</h2><p>取出一个列表中的最大值,不过我们要自己定义一个对比规则</p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Comparator</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(T o1, T o2)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">Optional&lt;Integer&gt; result = list.stream().collect(Collectors.maxBy((ele1, ele2) -&gt; ele1 - ele2));</span><br></pre></td></tr></table></figure></p>
-<h2 id="minBy"><a href="#minBy" class="headerlink" title="minBy"></a>minBy</h2><p>取出一个列表中的最大值,不过我们要自己定义一个对比规则</p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Comparator</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(T o1, T o2)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">Optional&lt;Integer&gt; result = list.stream().collect(Collectors.minBy((ele1, ele2) -&gt; ele1 - ele2));</span><br></pre></td></tr></table></figure></p>
-<h2 id="summingDouble"><a href="#summingDouble" class="headerlink" title="summingDouble"></a>summingDouble</h2><p>对列表数据取和操作,结果为<code>Double</code></p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToDoubleFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">applyAsDouble</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">Double result = list.stream().collect(Collectors.summingDouble(ele -&gt; ele));</span><br><span class="line"><span class="comment">// 结果为68</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="summingInt"><a href="#summingInt" class="headerlink" title="summingInt"></a>summingInt</h2><p>对列表数据取和操作,结果为<code>Int</code></p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToIntFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">applyAsInt</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">Integer result = list.stream().collect(Collectors.summingInt(ele -&gt; ele));</span><br></pre></td></tr></table></figure></p>
-<h2 id="summingLong"><a href="#summingLong" class="headerlink" title="summingLong"></a>summingLong</h2><p>对列表数据取和操作,结果为<code>Long</code></p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ToLongFunction</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">applyAsLong</span><span class="params">(T value)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">Long result = list.stream().collect(Collectors.summingLong(ele -&gt; ele));</span><br></pre></td></tr></table></figure></p>
-<h2 id="joining"><a href="#joining" class="headerlink" title="joining"></a>joining</h2><p>将流中的数据拼接成一个字符串. 需要注意的是如果流中的数据不是<code>String</code>类型的数据,可以通过<code>map</code>操作将流中数据转换成<code>String</code>类型</p>
-<p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = Arrays.asList(<span class="string">"1"</span>, <span class="string">"10"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"2"</span>);</span><br><span class="line">String result = list.stream().collect(Collectors.joining(<span class="string">","</span>, <span class="string">"("</span>, <span class="string">")"</span>));</span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line"><span class="string">"(1,10,2,3,2)"</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="reducing"><a href="#reducing" class="headerlink" title="reducing"></a>reducing</h2><p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">R <span class="title">apply</span><span class="params">(T t, U u)</span></span>;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
-<h2 id="mapping"><a href="#mapping" class="headerlink" title="mapping"></a>mapping</h2><p>lambda表达式类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = Arrays.asList(<span class="string">"1"</span>, <span class="string">"10"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"2"</span>);</span><br><span class="line">List&lt;String&gt; result = list.stream().collect(Collectors.mapping(ele -&gt; ele + <span class="number">1</span>, Collectors.toList()));</span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line">[</span><br><span class="line">	<span class="string">"11"</span>,</span><br><span class="line">	<span class="string">"101"</span>,</span><br><span class="line">	<span class="string">"21"</span>,</span><br><span class="line">	<span class="string">"31"</span>,</span><br><span class="line">	<span class="string">"21"</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<h2 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h2><p><img src="https://raw.githubusercontent.com/ming15/blog-website/images/java8/distinct.jpg" alt=""></p>
-<h2 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h2><p><img src="https://raw.githubusercontent.com/ming15/blog-website/images/java8/limit.jpg" alt=""></p>
-<h2 id="peek"><a href="#peek" class="headerlink" title="peek"></a>peek</h2><p><img src="https://raw.githubusercontent.com/ming15/blog-website/images/java8/peek.jpg" alt=""></p>
-<h2 id="skip"><a href="#skip" class="headerlink" title="skip"></a>skip</h2><p><img src="https://raw.githubusercontent.com/ming15/blog-website/images/java8/skip.jpg" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/09/08/JavaSE/java8 流/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/08/JavaSE/java8 流/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2015/09/08/网络/http/" title="HTTP" itemprop="url">HTTP</a>
   </h1>
   <p class="article-author">By
@@ -277,6 +132,159 @@
 	
 	  	<span></span>
 		<a href="/2015/09/08/网络/http/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/08/网络/http/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/09/08/构建工具/Archiva/" title="Archiva 初探" itemprop="url">Archiva 初探</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2015-09-07T16:00:00.000Z" itemprop="datePublished"> Published 2015-09-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><ol>
+<li>从<a href="">Archiva官网</a>下载Archiva后解压到<code>D:\archiva</code>里</li>
+<li>运行<code>bin\archiva.bat install</code>, archiva就启动成功了</li>
+<li>在浏览器运行<code>http://localhost:8080/</code>就可以进入archiva本地主页了</li>
+<li>当进入之后我们需要创建一个账号：<img src="https://raw.githubusercontent.com/wanggnim/website/images/Archiva/0.jpg" alt=""></li>
+<li>接着我们创建一个私有的仓库<img src="https://raw.githubusercontent.com/wanggnim/website/images/Archiva/1.jpg" alt=""></li>
+<li>我们创建一个最简单的私有仓库：<img src="https://raw.githubusercontent.com/wanggnim/website/images/Archiva/2.jpg" alt=""></li>
+<li>创建一个连接器<img src="https://raw.githubusercontent.com/wanggnim/website/images/Archiva/3.jpg" alt=""></li>
+<li>同样我们只选用必须的<img src="https://raw.githubusercontent.com/wanggnim/website/images/Archiva/4.jpg" alt=""></li>
+<li>接着如图操作<img src="https://raw.githubusercontent.com/wanggnim/website/images/Archiva/5.jpg" alt=""></li>
+<li><p>然后我们修改项目中的<code>pom.xml</code>文件!</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span><br><span class="line">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>testMaven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>testDeply<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>ID2015_09_17<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>NAME2015_09_17<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://localhost:8080/repository/ID2015_09_17<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">pluginRepositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pluginRepository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>ID2015_09_17<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>NAME2015_09_17<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://localhost:8080/repository/ID2015_09_17<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">pluginRepository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">pluginRepositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">distributionManagement</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>ID2015_09_17<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>NAME2015_09_17<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://localhost:8080/repository/ID2015_09_17<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">distributionManagement</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改本地仓库中的<code>setting.xml</code>文件(我的目录<code>C:\Users\Administrator\.m2</code>),我们添加私有仓库的用户名和密码!</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/settings/1.0.0"</span> </span><br><span class="line">          <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> </span><br><span class="line">          <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"</span>&gt;</span></span><br><span class="line">   </span><br><span class="line">	<span class="tag">&lt;<span class="name">servers</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>ID2015_09_17<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">username</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">password</span>&gt;</span>admin1<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servers</span>&gt;</span></span><br><span class="line">  </span><br><span class="line"> <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/构建工具/">构建工具</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/09/08/构建工具/Archiva/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/08/构建工具/Archiva/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/09/08/javascript/JavaScript/" title="JavaScript变量和流程控制" itemprop="url">JavaScript变量和流程控制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2015-09-07T16:00:00.000Z" itemprop="datePublished"> Published 2015-09-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>JavaScript是一门基于原型继承的函数式的面向对象的编程语言,对象可以直接从其他对象继承属性,且JavaScript是无类型的.</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><p>JavaScript只有一个数字类型,它在内部被表示为64位的浮点数. 它没有分离出整数类型,因此1和1.0的值是相同的</p>
+<p>NaN是一个数值，它表示一个不能产生正常结果的运算结果。<code>NaN</code>不等于任何值，包括它自己。可以使用函数<code>isNaN</code>来检测<code>NaN</code>。</p>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>字符串可以由一对单引号或者一对双引号构成，可以包含0到多个字符。<code>\</code>是转义字符。JavaScript采用Unicode16作为字符集，因此所有的字符都是16位的。</p>
+<p>字符串有一个length属性，可以获得字符串长度。</p>
+<p>字符串同样也是不可变的。一旦字符串被创建出来就无法改变它。我们同+链接其他字符串创建一个新的字符串。俩个包含着相同字符且字符顺序也相同的字符被认为是同一个字符串。<code>===</code>进行字符串判断。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>我们通过 <code>var</code>关键字来声明一个变量</p>
+<h3 id="函数私有变量"><a href="#函数私有变量" class="headerlink" title="函数私有变量"></a>函数私有变量</h3><p>JavaScript通过函数管理作用域。在函数内部声明的变量只在这个函数内部可用，而在函数外面不可用。</p>
+<h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><p>每个JavaScript环境有一个全局对象，当你在任意的函数外面使用this的时候可以访问到。你创建的每一个全局变量都成了这个全局对象的属性。</p>
+<h2 id="控制流程"><a href="#控制流程" class="headerlink" title="控制流程"></a>控制流程</h2><p>我们可以通过条件语句(if和switch),循环语句（while，for和do）强制跳转语句（break,return，throw）和函数调用来改变执行序列。</p>
+<h3 id="if"><a href="#if" class="headerlink" title="if"></a>if</h3><p>进行if判断时，下列值被作为假：</p>
+<ul>
+<li>false</li>
+<li>null</li>
+<li>空字符串 <code>&#39;&#39;</code></li>
+<li>数字0</li>
+<li>数字NaN</li>
+</ul>
+<h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><p>其表达式的值和case条件进行匹配。表达式可以是字符串或者数字。case表达式不一定必须是常量<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (num)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">	  x=<span class="string">"输入正确"</span>;</span><br><span class="line">	  <span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">	  x=<span class="string">"输入错误"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (i&lt;<span class="number">5</span>)</span><br><span class="line">&#123;</span><br><span class="line">	sum += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i&lt;<span class="number">5</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">	sum += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>for…in<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> array)</span><br><span class="line">&#123;</span><br><span class="line">	sum += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/09/08/javascript/JavaScript/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/08/javascript/JavaScript/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -385,100 +393,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/09/08/操作系统/io/" title="IO" itemprop="url">IO</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
-		
-  <p class="article-time">
-    <time datetime="2015-09-07T16:00:00.000Z" itemprop="datePublished"> Published 2015-09-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="IO概念"><a href="#IO概念" class="headerlink" title="IO概念"></a>IO概念</h2><p>linux内核将内分分成内核区和用户区俩个区域：</p>
-<ol>
-<li>用户区进程A向内核发起一个读文件的系统调用(进程A阻塞)</li>
-<li>linux在内核区生成一个文件句柄fd(该文件句柄指向了一个内核缓冲区)</li>
-<li>linux通过驱动程序向磁盘读取指定文件</li>
-<li>驱动程序将读取到的数据存储在内核区的缓冲区内</li>
-<li>当内核缓冲区的大小大于进程A设置的读取文件的大小时发生读就绪,内核缓冲区的数据刷新到用户区内</li>
-</ol>
-<h2 id="IO类型"><a href="#IO类型" class="headerlink" title="IO类型"></a>IO类型</h2><h3 id="阻塞IO"><a href="#阻塞IO" class="headerlink" title="阻塞IO"></a>阻塞IO</h3><p>在进程空间中调用recvfrom,其系统调用直到数据报到达且被拷贝到应用进程的缓冲区中或者发生错误才返回,期间一直在等待.我们就说进程在从调用recvfrom开始到它返回的整段时间内是被阻塞的.<br><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/阻塞IO.jpg" alt="阻塞IO.jpg"></p>
-<h3 id="非阻塞IO"><a href="#非阻塞IO" class="headerlink" title="非阻塞IO"></a>非阻塞IO</h3><p>这种情况下用户空间的进程不断地向内核空间轮询是否有数据到达,如果没有达到不进入阻塞(睡眠)而是直接返回一个错误.<br><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/非阻塞IO.jpg" alt="非阻塞IO.jpg"><br>这种操作效率是及其低下的,因为它把密集型IO操作变成了IO密集和计算密集的操作.</p>
-<h3 id="SIGIO"><a href="#SIGIO" class="headerlink" title="SIGIO"></a>SIGIO</h3><p>首先开启套接口信号驱动I/O功能,并通过系统调用sigaction安装一个信号处理函数(此系统调用立即返回,进程继续工作,它是非阻塞的).当数据报准备好被读时,就为该进程生成一个SIGIO信号.随即可以在信号处理程序中调用recvfrom来读数据报,井通知主循环数据已准备好被处理中.也可以通知主循环,让它来读数据报.<br><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/信号驱动IO.jpg" alt="信号驱动IO.jpg"></p>
-<h3 id="IO复用"><a href="#IO复用" class="headerlink" title="IO复用"></a>IO复用</h3><p>在<code>select/poll</code>上注册多个<code>fd</code>, 然后<code>select/poll</code>顺序轮询所有的<code>fd</code>,如果轮询到某个<code>fd</code>读就绪或者写就绪就取出该<code>fd</code>进行读写数据,但是由于<code>select/poll</code>支持的<code>fd</code>数量有限而且是顺序扫描的,因此它的性能仍然会达不到要求. 于是<code>epoll</code>出现了,它是基于事件驱动方式,而不是顺序扫描,当有fd就绪时,立即回调函数rollback；<br><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/IO复用.jpg" alt="IO复用.jpg"></p>
-<h3 id="windows的IOCP"><a href="#windows的IOCP" class="headerlink" title="windows的IOCP"></a>windows的IOCP</h3><p>告知内核启动某个操作,并让内核在整个操作完成后(包括将数据从内核拷贝到用户自己的缓冲区)通知我们.这种模型与信号驱动模型的主要区别是：</p>
-<ul>
-<li>信号驱动I/O：由内核通知我们何时可以启动一个I/O操作；</li>
-<li>异步I/O模型：由内核通知我们I/O操作何时完成.<br><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/异步IO.jpg" alt="异步IO.jpg"></li>
-</ul>
-<h2 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h2><p>Java 类库通过 <code>java.nio.channels.FileChannel</code> 中的 <code>transferTo()</code> 方法来在 Linux 和 UNIX 系统上支持零拷贝.可以使用 <code>transferTo()</code> 方法直接将字节从它被调用的通道上传输到另外一个可写字节通道上,数据无需流经应用程序.本文首先展示了通过传统拷贝语义进行的简单文件传输引发的开销,然后展示了使用 <code>transferTo()</code> 零拷贝技巧如何提高性能.</p>
-<h3 id="传统方法数据传输"><a href="#传统方法数据传输" class="headerlink" title="传统方法数据传输"></a>传统方法数据传输</h3><p><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/transfer_copy.jpg" alt="传统的数据拷贝方法.gif"><br><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/transfer_context.gif" alt="传统上下文切换.gif"></p>
-<ol>
-<li>read() 调用引发了一次从用户模式到内核模式的上下文切换.在内部,发出 <code>sys_read()</code>(或等效内容)以从文件中读取数据.直接内存存取(<code>direct memory access</code>,DMA)引擎执行了第一次拷贝,它从磁盘中读取文件内容,然后将它们存储到一个内核地址空间缓存区中.</li>
-<li>所需的数据被从读取缓冲区拷贝到用户缓冲区,read() 调用返回.该调用的返回引发了内核模式到用户模式的上下文切换(又一次上下文切换).现在数据被储存在用户地址空间缓冲区.</li>
-<li><code>send()</code> 套接字调用引发了从用户模式到内核模式的上下文切换.数据被第三次拷贝,并被再次放置在内核地址空间缓冲区.但是这一次放置的缓冲区不同,该缓冲区与目标套接字相关联.</li>
-<li><code>send()</code> 系统调用返回,结果导致了第四次的上下文切换.DMA 引擎将数据从内核缓冲区传到协议引擎,第四次拷贝独立地、异步地发生 .</li>
-</ol>
-<p>使用中间内核缓冲区(而不是直接将数据传输到用户缓冲区)看起来可能有点效率低下.但是之所以引入中间内核缓冲区的目的是想提高性能.在读取方面使用中间内核缓冲区,可以允许内核缓冲区在应用程序不需要内核缓冲区内的全部数据时,充当 “预读高速缓存(readahead cache)” 的角色.这在所需数据量小于内核缓冲区大小时极大地提高了性能.在写入方面的中间缓冲区则可以让写入过程异步完成.</p>
-<p>不幸的是,如果所需数据量远大于内核缓冲区大小的话,这个方法本身可能成为一个性能瓶颈.数据在被最终传入到应用程序前,在磁盘、内核缓冲区和用户缓冲区中被拷贝了多次.零拷贝通过消除这些冗余的数据拷贝而提高了性能.</p>
-<p><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/transferTo_copy.gif" alt="使用 transferTo() 方法的数据拷贝.gif"><br><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/transferTo_context.gif" alt="使用 transferTo() 方法的上下文切换.gif"></p>
-<ol>
-<li><p>transferTo() 方法引发 DMA 引擎将文件内容拷贝到一个读取缓冲区.然后由内核将数据拷贝到与输出套接字相关联的内核缓冲区.</p>
-</li>
-<li><p>数据的第三次复制发生在DMA引擎将数据从内核套接字缓冲区传到协议引擎时.改进的地方：我们将上下文切换的次数从四次减少到了两次,将数据复制的次数从四次减少到了三次(其中只有一次涉及到了CPU).但是这个代码尚未达到我们的零拷贝要求.如果底层网络接口卡支持收集操作的话,那么我们就可以进一步减少内核的数据复制.在Linux内核2.4及后期版本中,套接字缓冲区描述符就做了相应调整,以满足该需求.这种方法不仅可以减少多个上下文切换,还可以消除需要涉及CPU的重复的数据拷贝.对于用户方面,用法还是一样的,但是内部操作已经发生了改变：</p>
-</li>
-</ol>
-<p>A. transferTo() 方法引发 DMA 引擎将文件内容拷贝到内核缓冲区.<br>B. 数据未被拷贝到套接字缓冲区.取而代之的是,只有包含关于数据的位置和长度的信息的描述符被追加到了套接字缓冲区.DMA 引擎直接把数据从内核缓冲区传输到协议引擎,从而消除了剩下的最后一次 CPU 拷贝.</p>
-<p><img src="https://raw.githubusercontent.com/wanggnim/website/images/net/transferTo_collect.gif" alt="结合使用 transferTo() 和收集操作时的数据拷贝.gif"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/操作系统/">操作系统</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/09/08/操作系统/io/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/08/操作系统/io/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/09/08/javascript/JavaScript/" title="JavaScript变量和流程控制" itemprop="url">JavaScript变量和流程控制</a>
+      <a href="/2015/09/08/javascript/JavaScript面向对象/" title="JavaScript面向对象和原型链" itemprop="url">JavaScript面向对象和原型链</a>
   </h1>
   <p class="article-author">By
        
@@ -492,27 +407,35 @@
     <div class="article-content">
         
         <p>JavaScript是一门基于原型继承的函数式的面向对象的编程语言,对象可以直接从其他对象继承属性,且JavaScript是无类型的.</p>
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><p>JavaScript只有一个数字类型,它在内部被表示为64位的浮点数. 它没有分离出整数类型,因此1和1.0的值是相同的</p>
-<p>NaN是一个数值，它表示一个不能产生正常结果的运算结果。<code>NaN</code>不等于任何值，包括它自己。可以使用函数<code>isNaN</code>来检测<code>NaN</code>。</p>
-<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>字符串可以由一对单引号或者一对双引号构成，可以包含0到多个字符。<code>\</code>是转义字符。JavaScript采用Unicode16作为字符集，因此所有的字符都是16位的。</p>
-<p>字符串有一个length属性，可以获得字符串长度。</p>
-<p>字符串同样也是不可变的。一旦字符串被创建出来就无法改变它。我们同+链接其他字符串创建一个新的字符串。俩个包含着相同字符且字符顺序也相同的字符被认为是同一个字符串。<code>===</code>进行字符串判断。</p>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>我们通过 <code>var</code>关键字来声明一个变量</p>
-<h3 id="函数私有变量"><a href="#函数私有变量" class="headerlink" title="函数私有变量"></a>函数私有变量</h3><p>JavaScript通过函数管理作用域。在函数内部声明的变量只在这个函数内部可用，而在函数外面不可用。</p>
-<h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><p>每个JavaScript环境有一个全局对象，当你在任意的函数外面使用this的时候可以访问到。你创建的每一个全局变量都成了这个全局对象的属性。</p>
-<h2 id="控制流程"><a href="#控制流程" class="headerlink" title="控制流程"></a>控制流程</h2><p>我们可以通过条件语句(if和switch),循环语句（while，for和do）强制跳转语句（break,return，throw）和函数调用来改变执行序列。</p>
-<h3 id="if"><a href="#if" class="headerlink" title="if"></a>if</h3><p>进行if判断时，下列值被作为假：</p>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>JavaScript的简单数据类型包括数字，字符串，布尔值，null值和undefined值，其他值都是对象(数组，函数都是对象)。 数字，字符串和布尔值虽然拥有方法，但他们是不可变的，因此不能称他们为对象。JavaScript中的对象是可变的键控集合。</p>
+<p>对象是属性的容器，每个属性都有名字和值。</p>
 <ul>
-<li>false</li>
-<li>null</li>
-<li>空字符串 <code>&#39;&#39;</code></li>
-<li>数字0</li>
-<li>数字NaN</li>
+<li>属性名：包括空串在内的任意字符串。如果字符串不是JavaScript保留的关键字切是合法的标识符则可以不必使用双引号。</li>
+<li>属性值：包括undefined值之外的任何值</li>
 </ul>
-<h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><p>其表达式的值和case条件进行匹配。表达式可以是字符串或者数字。case表达式不一定必须是常量<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (num)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">	  x=<span class="string">"输入正确"</span>;</span><br><span class="line">	  <span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">	  x=<span class="string">"输入错误"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (i&lt;<span class="number">5</span>)</span><br><span class="line">&#123;</span><br><span class="line">	sum += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i&lt;<span class="number">5</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">	sum += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>for…in<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> array)</span><br><span class="line">&#123;</span><br><span class="line">	sum += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是JavaScript里的对象是无类型的。</p>
+<p>JavaScript包含一种原型链特性,允许对象继承另一个对象的属性.正确的使用它能减少对象初始化时小号的时间和内存.</p>
+<h3 id="对象字面量"><a href="#对象字面量" class="headerlink" title="对象字面量"></a>对象字面量</h3><p>包围在一对花括号中的0~N个键值对即为对象字面量。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> empoty = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xiaoming = &#123;</span><br><span class="line">	name : <span class="string">"小明"</span>,</span><br><span class="line">	age  : <span class="number">18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>对象字面量还可以嵌套使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xiaoming = &#123;</span><br><span class="line">	name : <span class="string">"小明"</span>,</span><br><span class="line">	age  : <span class="number">18</span></span><br><span class="line">	chengji: &#123;</span><br><span class="line">		yuwen: <span class="number">99</span>,</span><br><span class="line">		shuxu: <span class="number">100</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="检索对象里的值"><a href="#检索对象里的值" class="headerlink" title="检索对象里的值"></a>检索对象里的值</h3><p>我们可以使用<code>[]</code>括住一个字符串表达式来索引某个值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xiaoming[<span class="string">"name"</span>]</span><br></pre></td></tr></table></figure></p>
+<p>如果该字符串是一个合法的标识符且不是保留关键字，那么也可以使用<code>.</code>进行索引<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xiaoming.name</span><br></pre></td></tr></table></figure></p>
+<p>如果我们索引<code>hair</code>这个属性的话,会得到一个<code>undefined</code>值,因此我们也可以使用<code>||</code>指定一个默认值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xiaoming.hair || <span class="string">"red"</span></span><br></pre></td></tr></table></figure></p>
+<p>这样我们获得的结果就是<code>red</code>这个字符串,可是如果我们向一个<code>undefined</code>值继续索引的话会得到一个<code>TypeError</code>异常,我们可以使用<code>&amp;&amp;</code>来避免<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xiaoming.cars &amp;&amp; xiaoming.cars.changcheng</span><br></pre></td></tr></table></figure></p>
+<p>我们通过这种方式获得小明拥有的汽车中长城汽车的属性值.</p>
+<h3 id="更新对象的值"><a href="#更新对象的值" class="headerlink" title="更新对象的值"></a>更新对象的值</h3><p>我们可以通过<code>=</code>对对象进行赋值.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xiaoming.name = <span class="string">"zhangxiaoming"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者赋值某个新的对象</span></span><br><span class="line">xiaoming.chengji: &#123;</span><br><span class="line">		yuwen: <span class="number">99</span>,</span><br><span class="line">		shuxu: <span class="number">100</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="引用对象"><a href="#引用对象" class="headerlink" title="引用对象"></a>引用对象</h3><p>对象通过引用来传递</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> chengji = xiaoming.chengji</span><br></pre></td></tr></table></figure>
+<h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3><h4 id="Object-模式"><a href="#Object-模式" class="headerlink" title="Object 模式"></a>Object 模式</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o1 = &#123;&#125;;<span class="comment">//字面量的表现形式</span></span><br><span class="line"><span class="keyword">var</span> o2 = <span class="keyword">new</span> <span class="built_in">Object</span>;</span><br><span class="line"><span class="keyword">var</span> o3 = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"><span class="keyword">var</span> o4 = <span class="keyword">new</span> <span class="built_in">Object</span>(<span class="literal">null</span>);</span><br><span class="line"><span class="keyword">var</span> o5 = <span class="keyword">new</span> <span class="built_in">Object</span>(<span class="literal">undefined</span>);</span><br><span class="line"><span class="keyword">var</span> o6 = <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.prototype);<span class="comment">//等价于 var o = &#123;&#125;;//即以 Object.prototype 对象为一个原型模板,新建一个以这个原型模板为原型的对象</span></span><br><span class="line"><span class="comment">// 区别</span></span><br><span class="line"><span class="keyword">var</span> o7 = <span class="built_in">Object</span>.create(<span class="literal">null</span>);<span class="comment">//创建一个原型为 null 的对象</span></span><br></pre></td></tr></table></figure>
+<h4 id="构造器模式"><a href="#构造器模式" class="headerlink" title="构造器模式"></a>构造器模式</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Car</span>(<span class="params">sColor</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.color = sColor;      </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> car = <span class="keyword">new</span> Car(<span class="string">"red"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3><p>每个对象都会连接到一个原型对象,并且从中继承属性. 对象字面量会连接到<code>Object.prototype</code></p>
+<p>需要指出的是原型连接在对象更新时是不起作用的(如果我们对某个对象做出改变是不会触及该对象的原型).原型连接只有在索引值的时候才会被用到.</p>
+<h4 id="委托"><a href="#委托" class="headerlink" title="委托"></a>委托</h4><p>如果我们尝试去索引某个对象A的值,但该对象没有此属性名,那么JavaScript会试着从A的原型B中进行查找,如果B中也没有的话,会继续向B的原型C中查找,一直找到<code>Object.prototype</code>,如果都没有找到那么值就是<code>undefined</code>.</p>
+<h4 id="指定对象的原型"><a href="#指定对象的原型" class="headerlink" title="指定对象的原型"></a>指定对象的原型</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>我们可以使用typeof来观察我们的对象中是否包含某个属性<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> xiaoming.name  <span class="comment">// 值为string</span></span><br><span class="line"><span class="keyword">typeof</span> xiaoming.address  <span class="comment">// 值为undefined</span></span><br></pre></td></tr></table></figure></p>
+<p>这样我们可以通过<code>undefined</code>来判断某个对象中是否包含某个值,但是有一点需要说明的是<code>typeof</code>也会在原型链进行索引判断。</p>
+<p>那么我们可以使用<code>hasOwnProperty</code>方法进行判断，它不对原型链进行检查同时它的返回值只有布尔值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xiaoming.hasOwnProperty(<span class="string">"address"</span>)  <span class="comment">// 值为false</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>delete运算符可以用来删除对象的属性.它不会触及原型链中的任何对象. 如果我们自定义的对象属性覆盖了原型中的属性,我们可以通过删除对象的属性而让原型中的属性显露出来</p>
 
         
         
@@ -537,7 +460,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2015/09/08/javascript/JavaScript/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/08/javascript/JavaScript/" data-count-type="comments">&nbsp;</a>
+		<a href="/2015/09/08/javascript/JavaScript面向对象/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/08/javascript/JavaScript面向对象/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -693,64 +616,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/08/08/python/python2 JSON/" title="PYTHON2 json" itemprop="url">PYTHON2 json</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
-		
-  <p class="article-time">
-    <time datetime="2015-08-07T16:00:00.000Z" itemprop="datePublished"> Published 2015-08-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>使用<code>dump()</code>方法将对象序列化成json,然后使用<code>load()</code>将字符串反序列化成对象<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">list = [<span class="number">123</span>, <span class="string">"ad"</span>]</span><br><span class="line">listJson = json.dumps(list)</span><br><span class="line">listR = json.loads(listJson)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"列表序列化 : "</span> + listJson</span><br><span class="line"><span class="keyword">print</span> <span class="string">"列表反序列化 : "</span> + str(listR[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">tumple = (<span class="number">123</span>, <span class="string">"adf"</span>)</span><br><span class="line">tumpleJson = json.dumps(tumple)</span><br><span class="line">tumpleR = json.loads(tumpleJson)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"元组序列化 : "</span> + tumpleJson</span><br><span class="line"><span class="keyword">print</span> <span class="string">"元组反序列化 : "</span> + str(tumpleR[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">map = &#123;</span><br><span class="line">       <span class="string">"key1"</span>:<span class="string">"value1"</span>,</span><br><span class="line">       <span class="string">"key2"</span>:<span class="string">"value2"</span>,</span><br><span class="line">       <span class="string">"key3"</span>:<span class="string">"value3"</span>,</span><br><span class="line">       &#125;</span><br><span class="line">mapJson = json.dumps(map)</span><br><span class="line">mapR = json.loads(mapJson)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"字典序列化 : "</span> + mapJson</span><br><span class="line"><span class="keyword">print</span> <span class="string">"字典反序列化 : "</span> + str(mapR[<span class="string">"key1"</span>])</span><br><span class="line"></span><br><span class="line">seq = [<span class="string">'apple'</span>, <span class="string">'mango'</span>, <span class="string">'carrot'</span>, <span class="string">'banana'</span>]</span><br><span class="line">seqJson = json.dumps(seq)</span><br><span class="line">seqR = json.loads(seqJson)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"序列序列化 : "</span> + seqJson</span><br><span class="line"><span class="keyword">print</span> <span class="string">"序列反序列化 : "</span> + str(seqR[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">type tumpleR[<span class="number">1</span>]</span><br><span class="line">type mapR[<span class="string">"key1"</span>]</span><br><span class="line">type seqR[<span class="number">1</span>]</span><br></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/python2/">python2</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/08/08/python/python2 JSON/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/08/python/python2 JSON/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2015/08/08/日志工具/logstash 语法/" title="logstash 语法" itemprop="url">logstash 语法</a>
   </h1>
   <p class="article-author">By
@@ -812,7 +677,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/08/08/mgits/unity命令行使用/" title="unity命令行使用" itemprop="url">unity命令行使用</a>
+      <a href="/2015/08/08/python/python2字符串/" title="PYTHON2 字符串函数" itemprop="url">PYTHON2 字符串函数</a>
   </h1>
   <p class="article-author">By
        
@@ -825,45 +690,84 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Command-line-arguments"><a href="#Command-line-arguments" class="headerlink" title="Command line arguments"></a>Command line arguments</h1><p>当从命令行启动<code>Unity</code>时,它可以在启动时接受一些参数和信息, 这种方式可以用于测试用例，自动构建和其他的任务。</p>
-<p>在<code>MacOS</code>系统下，你可以像下面这样启动<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Unity/Unity.app/Contents/MacOS/Unity</span><br></pre></td></tr></table></figure></p>
-<p>当在windows系统里，你就需要执行下面的命令了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"C:\Program Files (x86)\Unity\Editor\Unity.exe"</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h2><p>正如上面提到的,<code>editor</code>也可以在启动时通过一些额外的命令来构建游戏, 下面就列举出了这些命令：</p>
-<ul>
-<li><code>-assetServerUpdate &lt;IP[:port] projectName username password [r &lt;revision&gt;]&gt;</code>    从<code>IP:port</code>上的<code>Asset Server</code>强制更新项目. <code>port</code>是可选的,如果不指定的话,会默认选择<code>10733</code>这个端口. 这个命令可与<code>-projectPath</code>参数一起使用, 这样可确保你不会更新错项目.如果不指定项目名称的话,那么会默认的对<code>Unity</code>上次打开的项目进行更新. 如果<code>-projectPath</code>路径下不存在项目,那么会自动创建一个.</li>
-<li><code>-batchmode</code>  在<code>batch</code>模式下运行<code>Unity</code>.这个命令我们强烈建议你与其他命令一起使用, 它会确保不会弹出Edtior. 当由脚本代码抛出异常或者<code>Asset Server</code>更新失败或者其他操作引起的异常,<code>Unity</code>会直接返回错误码<code>1</code>并退出. 需要注意的是,在<code>batch</code>模式下,<code>Unity</code>会在控制台输出一些基础日志. 还有当在<code>batch</code>模式下打开一个项目,那么<code>Editor</code>就不能再开打这个相同的项目.</li>
-<li><code>-buildLinux32Player &lt;pathname&gt;</code>    构建一个32位的linux版应用.(例如 <code>-buildLinux32Player path/to/your/build</code>).</li>
-<li><code>-buildLinux64Player &lt;pathname&gt;</code>    构建一个64位的linux版应用.(例如 <code>-buildLinux64Player path/to/your/build</code>).</li>
-<li><code>-buildLinuxUniversalPlayer &lt;pathname&gt;</code>    构建一个32位和64位的linux混合版应用.(例如 <code>-buildLinuxUniversalPlayer path/to/your/build</code>).</li>
-<li><code>-buildOSXPlayer &lt;pathname&gt;</code>    构建一个32位的MacOS版应用.(例如 <code>-buildOSXPlayer path/to/your/build.app</code>).</li>
-<li><code>-buildOSX64Player &lt;pathname&gt;</code>    构建一个64位的MacOS版应用.(例如 <code>-buildOSX64Player path/to/your/build.app</code>).</li>
-<li><code>-buildOSXUniversalPlayer &lt;pathname&gt;</code>    构建一个32位和64位的MacOs混合版应用.(例如 <code>-buildOSXUniversalPlayer path/to/your/build.app</code>).</li>
-<li><code>-buildTarget &lt;name&gt;</code>    当项目被加载之前允许用户选择的构建目标：<code>win32, win64, osx, linux, linux64, ios, android, web, webstreamed, webgl, xbox360, xboxone, ps3, ps4, psp2, wsa, wp8, bb10, tizen, samsungtv</code>.</li>
-<li><code>-buildWebPlayer &lt;pathname&gt;</code>    构建一个在web上运行的应用.(例如<code>-buildWebPlayer path/to/your/build</code>).</li>
-<li><code>-buildWebPlayerStreamed &lt;pathname&gt;</code>    Build a streamed WebPlayer (<code>-buildWebPlayerStreamed path/to/your/build</code>).</li>
-<li><code>-buildWindowsPlayer &lt;pathname&gt;</code>    构建一个32位的Windows版应用.(例如  <code>-buildWindowsPlayer path/to/your/build.exe</code>).</li>
-<li><code>-buildWindows64Player &lt;pathname&gt;</code>    构建一个64位的Windows版应用.(例如  <code>-buildWindows64Player path/to/your/build.exe</code>).</li>
-<li><code>-createProject &lt;pathname&gt;</code>    在指定路径下(<code>pathname</code>)创建一个空项目.</li>
-<li><code>-executeMethod &lt;ClassName.MethodName&gt;</code>    只要Unity启动完成并且项目打开(可能还需要等待asset server更新完成)就执行该静态方法. 该功能可用于持续集成, 运行测试用例, 执行构建任务, 准备一些数据等等. 如果你想让程序在命令行中返回一个错误码,那么你可以直接在Unity中直接抛出一个异常,这时命令行返回的错误码是1，或者你可以调用<code>EditorApplication.Exit</code>,这时会返回一个非0的状态码. 如果你想要向该方法传递参数,那么你可以直接将这些参数添加到命令行上,然后在程序中使用<code>System.Environment.GetCommandLineArgs</code>获得这些参数.To use -executeMethod, you need to place the enclosing script in an Editor folder. The method to be executed must be defined as static.</li>
-<li><code>-exportPackage &lt;exportAssetPath1 exportAssetPath2 ExportAssetPath3 exportFileName&gt;</code>    在指定的路径下导出<code>package</code>. <code>exportAssetPath</code>是一个从Unity项目导出到的文件夹(路径相对于Unity项目的根路径), <code>exportFileName</code>是package的名字. 一般这个选项可以一次性地导出整个文件夹.这个命令一般需要和<code>-projectPath</code>参数一起使用.</li>
-<li><code>-force-d3d9 (Windows only)</code>    设置editor使用<code>Direct3D 9</code>进行渲染. 这个是默认选项,一般不需要你去设置这个值.</li>
-<li><code>-force-d3d11 (Windows only)</code>    设置editor使用<code>Direct3D 11</code>进行渲染.</li>
-<li><code>-force-opengl (Windows only)</code>    设置editor使用<code>OpenGL</code>进行渲染. 即使<code>Direct3D</code>可用我们也可以说使用<code>OpenGL</code>进行渲染. 一般我们是在<code>Direct3D 9.0c</code>不可用的情况下才选择使用<code>openGL</code></li>
-<li><code>-force-free</code>    让edtior在<code>Unity license</code>下运行, 即使我们安装了<code>Unity Pro license</code></li>
-<li><code>-importPackage &lt;pathname&gt;</code>    导入指定的<code>package</code>. 如果不进行导入的话,会出现一个对话框.</li>
-<li><code>-logFile &lt;pathname&gt;</code>    指定Editor或者<code>Windows/Linux/OSX</code>版本应用的日志输出路径.</li>
-<li><code>-silent-crashes</code>    不显示crashe对话框.</li>
-<li><code>-projectPath &lt;pathname&gt;</code>    在指定的路径下打开项目.</li>
-<li><code>-quit</code>    当其他命令都执行完之后退出Unity. 注意这个会将错误日志隐藏掉，但是可以在<code>Editor.log</code>中找到它.</li>
-<li><code>-serial &lt;serial&gt;</code>    Activates Unity with the specified serial key. It is recommended to pass “-batchmode -quit” arguments as well, in order to quit Unity when done, if using this for automated activation of Unity. Please allow a few seconds before license file is created, as Unity needs to communicate with the license server. Make sure that License file folder exists, and has appropriate permissions before running Unity with this argument. In case activation fails, see the Editor.log for info. This option is new in Unity 5.0.</li>
+        <ul>
+<li><p><code>capitalize(...)</code> : Python capitalize()将字符串的第一个字母变成大写,其他字母变小写。<code>print &quot;abc&quot;.capitalize()</code></p>
+</li>
+<li><p><code>center(...)</code> : 返回一个原字符串居中,并使用空格填充至长度 width 的新字符串。默认填充字符为空格。<code>print &quot;abc&quot;.center(10, &quot;1&quot;)</code>结果为<code>111abc1111</code><br>··</p>
+</li>
+<li><p><code>count(...)</code> : 用于统计字符串里某个字符出现的次数。可选参数为在字符串搜索的开始与结束位置。<code>&quot;abcdefg&quot;.count(&quot;c&quot;, 2, 4)</code>结果为<code>1</code></p>
+</li>
+<li><p><code>encode(...)</code> : encoding 指定的编码格式编码字符串。errors参数可以指定不同的错误处理方案。<code>S.encode(encoding=&#39;utf-8&#39;, errors=&#39;strict&#39;) -&gt; bytes</code> </p>
+</li>
+<li><p><code>endswith(...)</code> : 用于判断字符串是否以指定后缀结尾，如果以指定后缀结尾返回True，否则返回False。可选参数”start”与”end”为检索字符串的开始与结束位置。<code>&quot;abcdefg&quot;.endswith(&quot;d&quot;, 2, 4)</code>结果为true</p>
+</li>
+<li><p><code>expandtabs(...)</code> : <code>S.expandtabs(tabsize=8) -&gt; str</code> 把字符串中的 tab 符号(‘\t’)转为空格，默认的空格数 tabsize 是 8。</p>
+</li>
+<li><p><code>find(...)</code> : <code>S.find(sub[, start[, end]]) -&gt; int</code> 检测字符串中是否包含子字符串 str ，如果指定 beg（开始） 和 end（结束） 范围，则检查是否包含在指定范围内，如果包含子字符串返回开始的索引值，否则返回-1。</p>
+</li>
+<li><p><code>rfind(...)</code> : <code>S.rfind(sub[, start[, end]]) -&gt; int</code> 返回字符串最后一次出现的位置，如果没有匹配项则返回-1。</p>
+</li>
+<li><p><code>format(...)</code> : <code>&quot;abcd{0}fg&quot;.format(&quot;sdf&quot;)</code> {0}被替换成sdf</p>
+</li>
+<li><p><code>index(...)</code> : <code>S.index(sub[, start[, end]]) -&gt; int</code>检测字符串中是否包含子字符串 str ，如果指定 beg（开始） 和 end（结束） 范围，则检查是否包含在指定范围内，该方法与 python find()方法一样，只不过如果str不在 string中会报一个异常。</p>
+</li>
+<li><p><code>rindex(...)</code> : <code>S.rindex(sub[, start[, end]]) -&gt; int</code> 返回子字符串 str 在字符串中最后出现的位置，如果没有匹配的字符串会报异常，你可以指定可选参数[beg:end]设置查找的区间。</p>
+</li>
+<li><p><code>isalnum(...)</code> : <code>S.isalnum() -&gt; bool</code> 判断字符串是否包含字母数字。</p>
+</li>
+<li><p><code>isalpha(...)</code> : <code>S.isalpha() -&gt; bool</code> 检测字符串是否只由字母组成。</p>
+</li>
+<li><p><code>isdecimal(...)</code> : <code>S.isdecimal() -&gt; bool</code> 检查字符串是否只包含十进制字符。这种方法只存在于unicode对象。</p>
+</li>
+<li><p><code>isdigit(...)</code> : <code>S.isdigit() -&gt; bool</code> 检测字符串是否只由数字组成。</p>
+</li>
+<li><p><code>islower(...)</code> : <code>S.islower() -&gt; bool</code> 检测字符串是否由小写字母组成。</p>
+</li>
+<li><p><code>isnumeric(...)</code> : <code>S.isnumeric() -&gt; bool</code> 检查是否只有数字字符组成的字符串。这种方法目前只对unicode对象。</p>
+</li>
+<li><p><code>isspace(...)</code> : <code>S.isspace() -&gt; bool</code> 是否只由空格组成。</p>
+</li>
+<li><p><code>istitle(...)</code> : <code>S.istitle() -&gt; bool</code> 检测字符串中所有的单词拼写首字母是否为大写，且其他字母为小写。</p>
+</li>
+<li><p><code>isupper(...)</code> : <code>S.isupper() -&gt; bool</code> 检测字符串中所有的字母是否都为大写。</p>
+</li>
+<li><p><code>join(...)</code> : <code>S.join(iterable) -&gt; str</code> 用于将序列中的元素以指定的字符连接生成一个新的字符串。</p>
+</li>
+<li><p><code>ljust(...)</code> : <code>S.ljust(width[, fillchar]) -&gt; str</code> 返回一个原字符串左对齐,并使用空格填充至指定长度的新字符串。如果指定的长度小于原字符串的长度则返回原字符串。</p>
+</li>
+<li><p><code>rjust(...)</code> : <code>S.rjust(width[, fillchar]) -&gt; str</code> 返回一个原字符串右对齐,并使用空格填充至长度 width 的新字符串。如果指定的长度小于字符串的长度则返回原字符串。</p>
+</li>
+<li><p><code>lower(...)</code> : <code>S.lower() -&gt; str</code> 转换字符串中所有大写字符为小写。</p>
+</li>
+<li><p><code>lstrip(...)</code> : <code>S.lstrip([chars]) -&gt; str</code> 用于截掉字符串左边的空格或指定字符。</p>
+</li>
+<li><p><code>partition(...)</code> : <code>S.partition(sep) -&gt; (head, sep, tail)</code> Search for the separator sep in S, and return the part before it,the separator itself, and the part after it.  If the separator is not found, return S and two empty strings.</p>
+</li>
+<li><p><code>rpartition(...)</code> : <code>S.rpartition(sep) -&gt; (head, sep, tail)</code> 类似于 partition()函数,不过是从右边开始查找.</p>
+</li>
+<li><p><code>replace(...)</code> : <code>S.replace(old, new[, count]) -&gt; str</code> 把字符串中的 old（旧字符串） 替换成 new(新字符串)，如果指定第三个参数max，则替换不超过 max 次。</p>
+</li>
+<li><p><code>split(...)</code> : <code>S.split(sep=None, maxsplit=-1) -&gt; list of strings</code> 通过指定分隔符对字符串进行切片，如果参数num 有指定值，则仅分隔 num 个子字符串. 另外参考<code>rsplit(...)</code></p>
+</li>
+<li><p><code>splitlines(...)</code> : <code>S.splitlines([keepends]) -&gt; list of strings</code> 返回一个字符串的所有行，可选包括换行符列表(如果num提供，则为true)</p>
+</li>
+<li><p><code>startswith(...)</code> : <code>S.startswith(prefix[, start[, end]]) -&gt; bool</code> 用于检查字符串是否是以指定子字符串开头，如果是则返回 True，否则返回 False。如果参数 beg 和 end 指定值，则在指定范围内检查。</p>
+</li>
+<li><p><code>strip(...)</code> : <code>S.strip([chars]) -&gt; str</code> 用于移除字符串头尾指定的字符（默认为空格）。</p>
+</li>
+<li><p><code>rstrip(...)</code> : <code>S.rstrip([chars]) -&gt; str</code> 删除 string 字符串末尾的指定字符（默认为空格）.</p>
+</li>
+<li><p><code>swapcase(...)</code> : <code>S.swapcase() -&gt; str</code> 用于对字符串的大小写字母进行转换。</p>
+</li>
+<li><p><code>title(...)</code> : <code>S.title() -&gt; str</code> 返回”标题化”的字符串,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle())。</p>
+</li>
+<li><p><code>translate(...)</code> : <code>S.translate(table) -&gt; str</code> 根据参数table给出的表(包含 256 个字符)转换字符串的字符, 要过滤掉的字符放到 del 参数中。</p>
+</li>
+<li><p><code>upper(...)</code> : <code>S.upper() -&gt; str</code> 将字符串中的小写字母转为大写字母。</p>
+</li>
+<li><p><code>zfill(...)</code> : <code>S.zfill(width) -&gt; str</code> 返回指定长度的字符串，原字符串右对齐，前面填充0。</p>
+</li>
 </ul>
-<h4 id="Example-usage"><a href="#Example-usage" class="headerlink" title="Example usage"></a>Example usage</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C# example</span></span><br><span class="line">using UnityEditor;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEditorScript</span></span><br><span class="line"></span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">PerformBuild</span> <span class="params">()</span></span><br><span class="line">     </span>&#123;</span><br><span class="line">         string[] scenes = &#123; <span class="string">"Assets/MyScene.unity"</span> &#125;;</span><br><span class="line">         BuildPipeline.BuildPlayer(scenes, ...);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// JavaScript example</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">PerformBuild</span> <span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    string[] scenes = &#123; <span class="string">"Assets/MyScene.unity"</span> &#125;;</span><br><span class="line">    BuildPipeline.BuildPlayer(scenes, ...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>下面的命令在<code>batch</code>模式下运行Unity, 同时执行<code>MyEditorScript.MyMethod</code>完成, 当该方法执行完之后退出.</p>
-<ul>
-<li><code>Windows</code>: <code>C:\program files\Unity\Editor\Unity.exe -quit -batchmode -executeMethod MyEditorScript.MyMethod</code></li>
-<li><code>Mac OS</code>: <code>/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -executeMethod MyEditorScript.MyMethod</code></li>
-</ul>
-<p>下面的命令在<code>batch</code>执行Unity, 同时从<code>asset server</code>更新指定项目. 当全部的<code>asset</code>下载完之后, 指定的方法会被执行,当方法被完全执行之后,Unity会自动退出.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -projectPath ~/UnityProjects/AutobuildProject -assetServerUpdate <span class="number">192.168</span>.1.1 MyGame AutobuildUser l33tpa33 -executeMethod MyEditorScript.PerformBuild -quit</span><br></pre></td></tr></table></figure></p>
 
         
         
@@ -876,7 +780,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/mgits/">mgits</a>
+  <a class="article-category-link" href="/categories/python2/">python2</a>
 </div>
 
 
@@ -888,7 +792,79 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2015/08/08/mgits/unity命令行使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/08/mgits/unity命令行使用/" data-count-type="comments">&nbsp;</a>
+		<a href="/2015/08/08/python/python2字符串/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/08/python/python2字符串/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/08/python/python2面向对象/" title="PYTHON2 面向对象" itemprop="url">PYTHON2 面向对象</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-07T16:00:00.000Z" itemprop="datePublished"> Published 2015-08-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="self"><a href="#self" class="headerlink" title="self"></a>self</h3><p>类的方法与普通的函数只有一个特别的区别——它们必须有一个额外的第一个参数名称<code>self</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h3 id="创建一个类"><a href="#创建一个类" class="headerlink" title="创建一个类"></a>创建一个类</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line"><span class="keyword">print</span> p</span><br></pre></td></tr></table></figure>
+<h3 id="对象的方法"><a href="#对象的方法" class="headerlink" title="对象的方法"></a>对象的方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"run"</span>)</span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line">p.run()</span><br></pre></td></tr></table></figure>
+<h4 id="init方法"><a href="#init方法" class="headerlink" title="init方法"></a><strong>init</strong>方法</h4><p><code>__init__</code>方法在类的一个对象被建立时，马上运行<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"run"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"init"</span>)</span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line">p.run()</span><br></pre></td></tr></table></figure></p>
+<h4 id="del方法"><a href="#del方法" class="headerlink" title="del方法"></a><strong>del</strong>方法</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"init"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"__destory__"</span>)</span><br><span class="line"></span><br><span class="line">p = Person()</span><br></pre></td></tr></table></figure>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ul>
+<li><p>类的变量: 由一个类的所有对象（实例）共享使用。只有一个类变量的拷贝，所以当某个对象对类的变量做了改动的时候，这个改动会反映到所有其他的实例上。</p>
+</li>
+<li><p>对象的变量: 由类的每个对象/实例拥有。因此每个对象有自己对这个域的一份拷贝，即它们不是共享的，在同一个类的不同实例中，虽然对象的变量有相同的名称，但是是互不相关的。通过一个例子会使这个易于理解。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span>:</span></span><br><span class="line">    age = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">father = Father()</span><br><span class="line">father.age = <span class="number">10</span></span><br><span class="line">Father.age = <span class="number">20</span></span><br><span class="line">print(father.age)</span><br><span class="line">print(Father.age)</span><br></pre></td></tr></table></figure>
+<h4 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h4><p>对象的属性(变量和方法)如果名字以<code>__</code>开头则不能被外部访问,但是如果名称构成形式为<code>__xxx__</code>则被称为特殊属性,是可以被外界访问的.</p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span>:</span></span><br><span class="line">    name = <span class="string">"Tom"</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"run"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span><span class="params">(Father)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">son = Son()</span><br><span class="line">print(son.name)</span><br><span class="line">son.run()</span><br></pre></td></tr></table></figure>
+<h4 id="init-del-在继承中的使用"><a href="#init-del-在继承中的使用" class="headerlink" title="__init__, __del__在继承中的使用"></a><code>__init__</code>, <code>__del__</code>在继承中的使用</h4><p>Python不会自动调用父类的constructor<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mother</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span>:</span></span><br><span class="line">    name = <span class="string">"Tom"</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"run"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Father init"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Father del"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span><span class="params">(Father, Mother)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Son init"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Son del"</span>)</span><br><span class="line"></span><br><span class="line">son = Son()</span><br><span class="line">print(son.name)</span><br><span class="line">son.run()</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/python2/">python2</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/08/08/python/python2面向对象/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/08/python/python2面向对象/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -946,10 +922,6 @@
 		  
 		
 		  
-			<li><a href="/categories/Java/" title="Java">Java<sup>1</sup></a></li>
-		  
-		
-		  
 			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>28</sup></a></li>
 		  
 		
@@ -958,7 +930,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Java工具/" title="Java工具">Java工具<sup>7</sup></a></li>
+			<li><a href="/categories/Java工具/" title="Java工具">Java工具<sup>8</sup></a></li>
 		  
 		
 		  
