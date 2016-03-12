@@ -1,0 +1,1112 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>ming15</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="ming15">
+    
+
+    
+    <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ming15">
+<meta property="og:url" content="http://www.ming15.wang/index.html">
+<meta property="og:site_name" content="ming15">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ming15">
+<meta name="twitter:description">
+
+    
+    <link rel="alternative" href="/atom.xml" title="ming15" type="application/atom+xml">
+    
+    
+    
+    <link rel="apple-touch-icon" href="/img/author.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/author.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="ming15" title="ming15"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="ming15">ming15</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+						<form class="search" action="http://zhannei.baidu.com/cse/search" target="_blank">
+							<label>Search</label>
+						<input name="s" type="hidden" value= 17728547076946147000 ><input type="text" name="q" size="30" placeholder="Search"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/06/nginx/nginx文件服务器/" title="Nginx文件服务器" itemprop="url">Nginx文件服务器</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-05T16:00:00.000Z" itemprop="datePublished"> Published 2016-03-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>我们使用Nginx搭建一个静态文件上传下载服务器.</p>
+<p>需要完成的功能</p>
+<ul>
+<li>文件上传</li>
+<li>文件下载</li>
+<li>用户验证</li>
+<li>频率控制</li>
+</ul>
+<p>Nginx配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#user  nobody;</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    sendfile        on;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       8071;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        location /index &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location /upload &#123;</span><br><span class="line">            root   files;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location /download/ &#123;</span><br><span class="line">            root   files;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Nginx/">Nginx</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/06/nginx/nginx文件服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/06/nginx/nginx文件服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/06/nginx/nginx负载均衡/" title="Nginx负载均衡" itemprop="url">Nginx负载均衡</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-05T16:00:00.000Z" itemprop="datePublished"> Published 2016-03-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>我们测试一次Nginx的负载均衡配置.</p>
+<p>首先我们使用python启动俩个HTTP服务器<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> BaseHTTPServer</span><br><span class="line"><span class="keyword">import</span> urlparse</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">port = sys.argv[<span class="number">1</span>]</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebRequestHandler</span><span class="params">(BaseHTTPServer.BaseHTTPRequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_GET</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        """</span></span><br><span class="line">        <span class="keyword">print</span> port</span><br><span class="line"></span><br><span class="line">server = BaseHTTPServer.HTTPServer((<span class="string">'0.0.0.0'</span>,int(sys.argv[<span class="number">1</span>])), WebRequestHandler)</span><br><span class="line">server.serve_forever()</span><br></pre></td></tr></table></figure></p>
+<p>然后在命令行分别启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python ./PyHttpServer.py 8091</span><br><span class="line">python ./PyHttpServer.py 8092</span><br></pre></td></tr></table></figure></p>
+<p>然后我们配置nginx.conf文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#user  nobody;</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    upstream big_server_com &#123;</span><br><span class="line">      server 127.0.0.1:8091 weight=5;</span><br><span class="line">      server 127.0.0.1:8092 weight=5;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       8090;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">            proxy_pass      http://big_server_com;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们让nginx在8090端口上监听, 然后将其反向代理到<code>8091</code>和<code>8092</code>端口上.</p>
+<blockquote>
+<p>还有一点很重要的是, 要代理的服务必须在Nginx启动之前都启动完毕, 否则Nginx没办法完成代理工作.</p>
+</blockquote>
+<p>最后我们在浏览器上发送HTTP请求<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8090</span><br></pre></td></tr></table></figure></p>
+<p>我们发现那俩个python的HTTP服务器果真都有输出了.</p>
+<p>但是我们发现, 就是那俩个服务器同时都有输出, 而不是应该只有其中一个有输出. 所以下来还需要研究一下如何配置Upstream, 看看如何让其真正实现负载均衡和单点失败</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Nginx/">Nginx</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/06/nginx/nginx负载均衡/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/06/nginx/nginx负载均衡/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/06/nginx/nginx安装与命令/" title="Nginx安装与启动,关闭" itemprop="url">Nginx安装与启动,关闭</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-05T16:00:00.000Z" itemprop="datePublished"> Published 2016-03-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在MAC上安装Nginx</p>
+<p>使用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx</span><br></pre></td></tr></table></figure></p>
+<p>homebrew会自动为我们安装. 程序会安装在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/Cellar/nginx/1.6.2</span><br></pre></td></tr></table></figure></p>
+<p>nginx的配置文件在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/etc/nginx</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>一般通过Homebrew安装的程序都会放在<code>/usr/local/Cellar/</code>里, 而配置文件会存储在<code>/usr/local/etc/</code>里</p>
+</blockquote>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>我们可以通过下面这个简单的命令直接启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/nginx</span><br></pre></td></tr></table></figure></p>
+<p>或者使用一个经过配置化的参数启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/nginx -t -c ~/mynginx.conf -g &quot;pid /var/run/nginx.pid; worker_processes 2;&quot;</span><br></pre></td></tr></table></figure></p>
+<h2 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h2><p>一般我们可以通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/nginx -s stop</span><br></pre></td></tr></table></figure></p>
+<p>但是我们还可以通过想Nginx 主进程发送信号的方式来关闭它.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -QUIT $( cat /usr/local/nginx/logs/nginx.pid )</span><br></pre></td></tr></table></figure></p>
+<p>一般我们推荐第二种方式, 让Nginx自己去停掉所有的主从进程</p>
+<p>Nginx还接受如下参数</p>
+<ul>
+<li>TERM, INT    : Quick shutdown</li>
+<li>QUIT :    Graceful shutdown</li>
+<li>KILL :    Halts a stubborn process</li>
+<li>HUP : Configuration reload, Start the new worker processes with a new configuration, Gracefully shutdown the old worker processes</li>
+<li>USR1 :    Reopen the log files</li>
+<li>USR2 :    Upgrade Executable on the fly</li>
+<li>WINCH :    Gracefully shutdown the worker processes</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Nginx/">Nginx</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/06/nginx/nginx安装与命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/06/nginx/nginx安装与命令/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/06/python/python2服务器/" title="PYTHON2 服务器(Socket/HTTP)" itemprop="url">PYTHON2 服务器(Socket/HTTP)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-05T16:00:00.000Z" itemprop="datePublished"> Published 2016-03-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="Socket服务器"><a href="#Socket服务器" class="headerlink" title="Socket服务器"></a>Socket服务器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">sock.bind((<span class="string">'localhost'</span>,<span class="number">8089</span>))</span><br><span class="line">sock.listen(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'tcpServer listen at: %s:%s\n\r'</span> %(<span class="string">'localhost'</span>,<span class="number">8089</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    client_sock,client_addr=sock.accept()</span><br><span class="line">    print(<span class="string">'%s:%s connect'</span> %client_addr)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        recv=client_sock.recv(<span class="number">4096</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> recv:</span><br><span class="line">            client_sock.close()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        print(<span class="string">'[Client %s:%s said]:%s'</span> % (client_addr[<span class="number">0</span>],client_addr[<span class="number">1</span>],recv))</span><br><span class="line">        client_sock.send(<span class="string">'tcpServer has received your message'</span>)</span><br><span class="line">        sock.close()</span><br></pre></td></tr></table></figure>
+<h2 id="HttpServer"><a href="#HttpServer" class="headerlink" title="HttpServer"></a>HttpServer</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> BaseHTTPServer</span><br><span class="line"><span class="keyword">import</span> urlparse</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebRequestHandler</span><span class="params">(BaseHTTPServer.BaseHTTPRequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_GET</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span><br><span class="line">        """</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"8090"</span></span><br><span class="line"></span><br><span class="line">server = BaseHTTPServer.HTTPServer((<span class="string">'0.0.0.0'</span>,<span class="number">8090</span>), WebRequestHandler)</span><br><span class="line">server.serve_forever()</span><br></pre></td></tr></table></figure>
+<p>self 还有如下参数</p>
+<ul>
+<li>self.path</li>
+<li>self.client_address</li>
+<li>self.address_string()</li>
+<li>self.command</li>
+<li>self.path</li>
+<li>self.request_version</li>
+<li>self.server_version</li>
+<li>self.sys_version</li>
+<li>self.protocol_version</li>
+<li>self.headers</li>
+<li>self.send_response(200)</li>
+<li>self.end_headers()</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/python2/">python2</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/06/python/python2服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/06/python/python2服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/05/JavaSE/ListVSMap/" title="List VS Map" itemprop="url">List VS Map</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-04T16:00:00.000Z" itemprop="datePublished"> Published 2016-03-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在日常的使用中, 使用的最多的结构就是List和Map了. 其中又以ArrayList和HashMap使用的最多. 今天特意找了一些时间来看一下他们各自的实现以及添加索引数据时的性能.</p>
+<p>首先看一下ArrayList.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Object[] elementData;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    elementData[size++] = e;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    rangeCheck(index);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> elementData(index);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>它的内部就是一个Object类型的数组, 在添加数据时首先确保数组不会越界, 如果会产生越界则内部进行数组扩容拷贝操作.</p>
+<p>HashMap是hash table的一个实现。它与HashTable不同之处就是它是非同步的而且键值都支持null.对于put和get操作，HashMap的耗时都是固定的，不会因为Map的大小而变化。因为hash函数会将元素分配到不同的bucket里面取. HashMap的迭代操作与它的容量（bucket数量+键值对数量）成正比关系，因此在初始化HashMap大小的时候要设置太高的容量或者较小的load factor。</p>
+<p>一般情况下, load factor的默认值0.75在空间和时间上找到了一种合适的性能。 如果高于这个值的话，会减少空间占用但是会增加查询的消耗(这点反应在了大多数的hashMap操作中，包括get和put操作). </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/05/JavaSE/ListVSMap/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/05/JavaSE/ListVSMap/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/05/nginx/nginx配置/" title="Nginx配置" itemprop="url">Nginx配置</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-04T16:00:00.000Z" itemprop="datePublished"> Published 2016-03-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>下面我们看一下Nginx官方给出的nginx.config可有的全部配置内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">user       www www;  ## Default: nobody</span><br><span class="line"># 在Nginx启动的时候会启动一个Master进程,和N个worker进程,Master讲接收到的任务分配给worker进程执行. worker进程数一般与主机的CPU的核心数相等</span><br><span class="line">worker_processes  5;  ## Default: 1</span><br><span class="line"># 错误日志的输出位置. (TODO 错误日志指的是哪些?)</span><br><span class="line">error_log  logs/error.log;</span><br><span class="line"># Nginx启动时的主进程ID</span><br><span class="line">pid        logs/nginx.pid;</span><br><span class="line"># worker进程能打开的最多的文件数(TODO 在正式环境中Nginx都会打开什么文件? 指的是Socket连接吗?)</span><br><span class="line">worker_rlimit_nofile 8192;</span><br><span class="line"></span><br><span class="line"># events模块, 包含nginx中所有处理连接的设置</span><br><span class="line">events &#123;</span><br><span class="line">  # worker进程能打开的最大的连接数 (小于worker_rlimit_nofile数)</span><br><span class="line">  worker_connections  4096;  ## Default: 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># http模块, 用于处理http请求</span><br><span class="line">http &#123;</span><br><span class="line">  # 引用mime.types配置, 主要是配置HTTP请求中的mineType类型</span><br><span class="line">  include    conf/mime.types;</span><br><span class="line">  # 引用nginx的代理配置. (TODO)</span><br><span class="line">  include    /etc/nginx/proxy.conf;</span><br><span class="line">  # 为nginx引用cgi配置</span><br><span class="line">  include    /etc/nginx/fastcgi.conf;</span><br><span class="line">  # 指定当HTTP请求没有任何请求路径时展示的界面.</span><br><span class="line">  index    index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">  #</span><br><span class="line">  default_type application/octet-stream;</span><br><span class="line">  # log输出格式</span><br><span class="line">  log_format   main &apos;$remote_addr - $remote_user [$time_local]  $status &apos;</span><br><span class="line">    &apos;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">    &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">  # 访问nginx时, 记录的http请求的日志存储位置 (TODO  如何以时间分割文件?)</span><br><span class="line">  access_log   logs/access.log  main;</span><br><span class="line">  # sendfile并不是发送文件, 而是设置磁盘和TCP Socket传输数据时直接通过系统缓存实现, 不再经过用户区的Read, write操作</span><br><span class="line">  sendfile     on;</span><br><span class="line">  # 设置在发送HTTP头文件时一次性全部发送, 而不是一个接一个的发送. (TODO)</span><br><span class="line">  tcp_nopush   on;</span><br><span class="line">  # TODO</span><br><span class="line">  server_names_hash_bucket_size 128; # this seems to be required for some vhosts</span><br><span class="line"></span><br><span class="line">  # 开启一个网络监听服务</span><br><span class="line">  server &#123; # php/fastcgi</span><br><span class="line">    # 该server监听的端口</span><br><span class="line">    listen       80;</span><br><span class="line">    # 绑定到的域名地址, 一般我们在主机都是使用localhost</span><br><span class="line">    server_name  domain1.com www.domain1.com;</span><br><span class="line">    # 该server生成的日志的保存地址</span><br><span class="line">    access_log   logs/domain1.access.log  main;</span><br><span class="line">    # 指定http请求中主机资源起始位置, 也就是`http://localhost:8090/`后面的位置</span><br><span class="line">    root         html;</span><br><span class="line"></span><br><span class="line">    # 所有请求以.php结尾的文件都到下面的代理地址中进行代理请求</span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">      fastcgi_pass   127.0.0.1:1025;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  # 再设置一个网络服务</span><br><span class="line">  server &#123; # simple reverse-proxy</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain2.com www.domain2.com;</span><br><span class="line">    access_log   logs/domain2.access.log  main;</span><br><span class="line"></span><br><span class="line">    # serve static files</span><br><span class="line">    location ~ ^/(images|javascript|js|css|flash|media|static)/  &#123;</span><br><span class="line">      root    /var/www/virtual/big.server.com/htdocs;</span><br><span class="line">      expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 反向代理设置, 将/下所有的请求进行转发</span><br><span class="line">    location / &#123;</span><br><span class="line">      #设置反向代理的地址, 將80端口接受到的请求转发到localhost的8080端口上</span><br><span class="line">      proxy_pass      http://127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  # 设置反向代理</span><br><span class="line">  upstream big_server_com &#123;</span><br><span class="line">    # 按照权重将代理过来的请求代理到俩个代理服务器上</span><br><span class="line">    server 127.0.0.3:8000 weight=5;</span><br><span class="line">    server 127.0.0.3:8001 weight=5;</span><br><span class="line">    server 192.168.0.1:8000;</span><br><span class="line">    server 192.168.0.1:8001;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple load balancing</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     big.server.com;</span><br><span class="line">    access_log      logs/big.server.access.log main;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">      # 设置反向代理, 代理到big_server_com上(upstream刚刚定义的)</span><br><span class="line">      proxy_pass      http://big_server_com;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面谈到的location涉及到的内容较多, 我们单独介绍一下:</p>
+<p>nginx location语法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">location [=|~|~*|^~] /uri/ &#123; … &#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>=</code> 严格匹配。如果这个查询匹配，那么将停止搜索并立即处理此请求。</li>
+<li><code>~</code> 为区分大小写匹配(可用正则表达式)</li>
+<li><code>~*</code> 为不区分大小写匹配(可用正则表达式)</li>
+<li><code>!~</code> 区分大小写不匹配</li>
+<li><code>!~*</code> 不区分大小写不匹配</li>
+<li><code>^~</code> 如果路径匹配那么不测试正则表达式。</li>
+</ul>
+<p>上面的配置引用里其他的配置文件,而且很多配置没有配置选项,下面是Nginx官网给出的另一种配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line">user  www www;</span><br><span class="line">worker_processes  2;</span><br><span class="line">pid /var/run/nginx.pid;</span><br><span class="line"></span><br><span class="line"># [ debug | info | notice | warn | error | crit ]</span><br><span class="line">error_log  /var/log/nginx.error_log  info;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">  worker_connections   2000;</span><br><span class="line">  # use [ kqueue | rtsig | epoll | /dev/poll | select | poll ] ;</span><br><span class="line">  use kqueue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  include       conf/mime.types;</span><br><span class="line">  default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">  log_format main      &apos;$remote_addr - $remote_user [$time_local]  &apos;</span><br><span class="line">    &apos;&quot;$request&quot; $status $bytes_sent &apos;</span><br><span class="line">    &apos;&quot;$http_referer&quot; &quot;$http_user_agent&quot; &apos;</span><br><span class="line">    &apos;&quot;$gzip_ratio&quot;&apos;;</span><br><span class="line"></span><br><span class="line">  log_format download  &apos;$remote_addr - $remote_user [$time_local]  &apos;</span><br><span class="line">    &apos;&quot;$request&quot; $status $bytes_sent &apos;</span><br><span class="line">    &apos;&quot;$http_referer&quot; &quot;$http_user_agent&quot; &apos;</span><br><span class="line">    &apos;&quot;$http_range&quot; &quot;$sent_http_content_range&quot;&apos;;</span><br><span class="line"></span><br><span class="line">  # HTTP请求,客户端相关设置</span><br><span class="line">  client_header_timeout  3m;</span><br><span class="line">  client_body_timeout    3m;</span><br><span class="line">  send_timeout           3m;</span><br><span class="line"></span><br><span class="line">  client_header_buffer_size    1k;</span><br><span class="line">  large_client_header_buffers  4 4k;</span><br><span class="line"></span><br><span class="line">  # 消息发送时开启gzip设置</span><br><span class="line">  gzip on;</span><br><span class="line">  gzip_min_length  1100;</span><br><span class="line">  gzip_buffers     4 8k;</span><br><span class="line">  gzip_types       text/plain;</span><br><span class="line"></span><br><span class="line">  output_buffers   1 32k;</span><br><span class="line">  postpone_output  1460;</span><br><span class="line"></span><br><span class="line">  sendfile         on;</span><br><span class="line">  tcp_nopush       on;</span><br><span class="line"></span><br><span class="line">  tcp_nodelay      on;</span><br><span class="line">  send_lowat       12000;</span><br><span class="line"></span><br><span class="line">  keepalive_timeout  75 20;</span><br><span class="line"></span><br><span class="line">  # lingering_time     30;</span><br><span class="line">  # lingering_timeout  10;</span><br><span class="line">  # reset_timedout_connection  on;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  server &#123;</span><br><span class="line">    listen        one.example.com;</span><br><span class="line">    server_name   one.example.com  www.one.example.com;</span><br><span class="line"></span><br><span class="line">    access_log   /var/log/nginx.access_log  main;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">      proxy_pass         http://127.0.0.1/;</span><br><span class="line">      proxy_redirect     off;</span><br><span class="line"></span><br><span class="line">      proxy_set_header   Host             $host;</span><br><span class="line">      proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">      # proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">      client_max_body_size       10m;</span><br><span class="line">      client_body_buffer_size    128k;</span><br><span class="line"></span><br><span class="line">      client_body_temp_path      /var/nginx/client_body_temp;</span><br><span class="line"></span><br><span class="line">      proxy_connect_timeout      90;</span><br><span class="line">      proxy_send_timeout         90;</span><br><span class="line">      proxy_read_timeout         90;</span><br><span class="line">      proxy_send_lowat           12000;</span><br><span class="line"></span><br><span class="line">      proxy_buffer_size          4k;</span><br><span class="line">      proxy_buffers              4 32k;</span><br><span class="line">      proxy_busy_buffers_size    64k;</span><br><span class="line">      proxy_temp_file_write_size 64k;</span><br><span class="line"></span><br><span class="line">      proxy_temp_path            /var/nginx/proxy_temp;</span><br><span class="line"></span><br><span class="line">      charset  koi8-r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page  404  /404.html;</span><br><span class="line"></span><br><span class="line">    location /404.html &#123;</span><br><span class="line">      root  /spool/www;</span><br><span class="line"></span><br><span class="line">      charset         on;</span><br><span class="line">      source_charset  koi8-r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /old_stuff/ &#123;</span><br><span class="line">      rewrite   ^/old_stuff/(.*)$  /new_stuff/$1  permanent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /download/ &#123;</span><br><span class="line">      valid_referers  none  blocked  server_names  *.example.com;</span><br><span class="line"></span><br><span class="line">      if ($invalid_referer) &#123;</span><br><span class="line">        #rewrite   ^/   http://www.example.com/;</span><br><span class="line">        return   403;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      # rewrite_log  on;</span><br><span class="line">      # rewrite /download/*/mp3/*.any_ext to /download/*/mp3/*.mp3</span><br><span class="line">      rewrite ^/(download/.*)/mp3/(.*)\..*$ /$1/mp3/$2.mp3 break;</span><br><span class="line"></span><br><span class="line">      root         /spool/www;</span><br><span class="line">      # autoindex    on;</span><br><span class="line">      access_log   /var/log/nginx-download.access_log  download;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~* ^.+\.(jpg|jpeg|gif)$ &#123;</span><br><span class="line">      root         /spool/www;</span><br><span class="line">      access_log   off;</span><br><span class="line">      expires      30d;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Nginx/">Nginx</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/05/nginx/nginx配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/05/nginx/nginx配置/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/04/mgits/java游戏服务器/" title="Java游戏服务器设计" itemprop="url">Java游戏服务器设计</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-03T16:00:00.000Z" itemprop="datePublished"> Published 2016-03-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>从毕业就开始在游戏行业摸爬滚打,至今4年将至,今天特意总结一下这四年来的心得.</p>
+<p>现在的游戏服务器大多采用Netty作为网络传输层,然后采用Reactor模型将消息转发到业务线程池中进行执行,然后在业务线程池中进行CPU计算,数据库IO操作,最后将结果返回给前端.</p>
+<p>这样的游戏服务器在压测的时候在线玩家不会超过2000人,而且经常会出现比较大的延迟,因为有的IO操作真的很耗时. </p>
+<p>在上个项目中我见到了这样一种设计,仍然是采用Netty完成网络层Socket数据读取发送工作,然后将解码出的数据扔到俩个消息队列里面去(采用Vertx的EventBus实现). 一个消息队列负责登录请求,一个消息队列负责整个游戏的业务逻辑. 这么着一来整个游戏的业务就不会出现数据竞争的情况. 然后再定时的将数据写到redis里面去. 这种设计在压测的时候达到了10000人的同时在线规模. (当然还有很多优化的地方, 例如在消息查找的时候采取ASM而不是低效的JDK反射, 但是并没有对JVM和Netty进行过特殊优化, 只是对JVM的新生代的分区将8:1:1改成了6:2:2)</p>
+<p>前俩天和一些游戏团队的人聊了聊,他们一致认为这种设计方式没有能充分的利用上主机多核的优势, 但是在Reactor的模型中, 主线程池和工作线程池都是需要CPU来运算的, 如果所有的CPU运算都来支持业务逻辑, 那么玩家一样会感觉到卡顿. 而且我们还可以对刚才的设计进行优化, 将不同模块业务放到不同的线程进行. 例如在Thread1中进行玩家自己的业务逻辑运算, 在Thread2中进行公会模块的业务计算, 当公会对玩家本身数据产生影响的时候, 我们可以让公会线程给玩家的业务线程发送消息(同样的使用消息队列). 这么着也能最大可能的利用多核优势同时让开发人员少的思考数据竞争出现的问题, 现在大多数的开发人员在处理数据竞争的时候还是较多的使用synchronized这种加锁方式(有些底层的接口也有可能使用读写锁, 但是使用锁, 在大规模用户的情况下,真的比较耗时).</p>
+<p>还有一点需要说的是, 在上个项目中,只使用到了很少的数据库表, 基本上玩家数据都存储到了一张表里, 当定时存储的时候,将玩家数据整个序列化成一个JSON串, 然后入库. 这么做有显而易见的好处,在分服的游戏中, 合服很容易而且在线上出现问题的时候,也很容易拿到一个玩家的数据进行问题排查. 而且在线上的时候也会出现因为异常而导致玩家刷材料等等, 因此如果在处理消息之前, 拿一个玩家备份的数据让玩家去操作,一旦出现数据异常也不会对玩家自己的数据造成影响. (需要考虑的是大量的序列号和反序列化会造成大量的GC操作.)</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/mgits/">mgits</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/04/mgits/java游戏服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/04/mgits/java游戏服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/02/redis/jedis/" title="Jedis 初探" itemprop="url">Jedis 初探</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-01T16:00:00.000Z" itemprop="datePublished"> Published 2016-03-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="using-Jedis-in-a-multithreaded-environment"><a href="#using-Jedis-in-a-multithreaded-environment" class="headerlink" title="using Jedis in a multithreaded environment"></a>using Jedis in a multithreaded environment</h2><p>我们不应该在多线程的情况下使用同一个Jedis实例对象, 因为在Jedis本身不是线程安全的, 它可能会引发一些奇奇怪怪的问题. 但是如果我们在每个线程中都创建一个Jedis实例对象的话这也是不可取的, 因为每个Jedis对象的创建都意味着socket和网络连接的创建. 为了避免这种情况,我们应该使用<code>JedisPool</code>, 它是一个线程安全的网络连接池. 我们可以通过池子创建多个Jedis实例对象, 当使用完之后再将它返回给池子.</p>
+<p>在下面的实例中我们初始化一个池子<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JedisPool pool = <span class="keyword">new</span> JedisPool(<span class="keyword">new</span> JedisPoolConfig(), <span class="string">"localhost"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>因为JedisPool是线程安全的, 因此我们可以将它缓存起来, 供所有线程使用.</p>
+<p><code>JedisPoolConfig</code>包含了一个丰富有用的Redis连接配置参数. <code>JedisPoolConfig</code>基于<a href="http://commons.apache.org/proper/commons-pool/apidocs/org/apache/commons/pool2/impl/GenericObjectPoolConfig.html" target="_blank" rel="external">Commons Pool 2</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Jedis implements Closable. Hence, the jedis instance will be auto-closed after the last statement.</span></span><br><span class="line"><span class="keyword">try</span> (Jedis jedis = pool.getResource()) &#123;</span><br><span class="line">  <span class="comment">/// ... do stuff here ... for example</span></span><br><span class="line">  jedis.set(<span class="string">"foo"</span>, <span class="string">"bar"</span>);</span><br><span class="line">  String foobar = jedis.get(<span class="string">"foo"</span>);</span><br><span class="line">  jedis.zadd(<span class="string">"sose"</span>, <span class="number">0</span>, <span class="string">"car"</span>); jedis.zadd(<span class="string">"sose"</span>, <span class="number">0</span>, <span class="string">"bike"</span>);</span><br><span class="line">  Set&lt;String&gt; sose = jedis.zrange(<span class="string">"sose"</span>, <span class="number">0</span>, -<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/// ... when closing your application:</span></span><br><span class="line">pool.destroy();</span><br></pre></td></tr></table></figure>
+<p>如果你不喜欢<code>try-with-resource</code>这种语法, 那么你可以使用<code>Jedis.close()</code>.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Jedis jedis = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  jedis = pool.getResource();</span><br><span class="line">  <span class="comment">/// ... do stuff here ... for example</span></span><br><span class="line">  jedis.set(<span class="string">"foo"</span>, <span class="string">"bar"</span>);</span><br><span class="line">  String foobar = jedis.get(<span class="string">"foo"</span>);</span><br><span class="line">  jedis.zadd(<span class="string">"sose"</span>, <span class="number">0</span>, <span class="string">"car"</span>); jedis.zadd(<span class="string">"sose"</span>, <span class="number">0</span>, <span class="string">"bike"</span>);</span><br><span class="line">  Set&lt;String&gt; sose = jedis.zrange(<span class="string">"sose"</span>, <span class="number">0</span>, -<span class="number">1</span>);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (jedis != <span class="keyword">null</span>) &#123;</span><br><span class="line">    jedis.close();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/// ... when closing your application:</span></span><br><span class="line">pool.destroy();</span><br></pre></td></tr></table></figure></p>
+<p>If Jedis was borrowed from pool, it will be returned to pool with proper method since it already determines there was JedisConnectionException occurred. If Jedis wasn’t borrowed from pool, it will be disconnected and closed.</p>
+<p>下来我们来看一段测试代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis;</span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.JedisPool;</span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.JedisPoolConfig;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JedisTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        JedisPoolConfig jedisPoolConfig = <span class="keyword">new</span> JedisPoolConfig();</span><br><span class="line">        jedisPoolConfig.setMaxTotal(<span class="number">10</span>);</span><br><span class="line">        JedisPool pool = <span class="keyword">new</span> JedisPool(jedisPoolConfig, <span class="string">"10.1.4.110"</span>);</span><br><span class="line">        System.out.println(<span class="string">"begin : "</span> + pool.getNumActive());</span><br><span class="line">        System.out.println(<span class="string">"begin : "</span> + pool.getNumIdle());</span><br><span class="line">        System.out.println(<span class="string">"begin : "</span> + pool.getNumWaiters());</span><br><span class="line">        Jedis jedis = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            jedis = pool.getResource();</span><br><span class="line">            System.out.println(<span class="string">"borrow : "</span> + pool.getNumActive());</span><br><span class="line">            System.out.println(<span class="string">"borrow : "</span> + pool.getNumIdle());</span><br><span class="line">            System.out.println(<span class="string">"borrow : "</span> + pool.getNumWaiters());</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (jedis != <span class="keyword">null</span>) &#123;</span><br><span class="line">                jedis.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"return : "</span> + pool.getNumActive());</span><br><span class="line">        System.out.println(<span class="string">"return : "</span> + pool.getNumIdle());</span><br><span class="line">        System.out.println(<span class="string">"return : "</span> + pool.getNumWaiters());</span><br><span class="line">        pool.destroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果为<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">begin : <span class="number">0</span></span><br><span class="line">begin : <span class="number">0</span></span><br><span class="line">begin : <span class="number">0</span></span><br><span class="line">borrow : <span class="number">1</span></span><br><span class="line">borrow : <span class="number">0</span></span><br><span class="line">borrow : <span class="number">0</span></span><br><span class="line"><span class="keyword">return</span> : <span class="number">0</span></span><br><span class="line"><span class="keyword">return</span> : <span class="number">1</span></span><br><span class="line"><span class="keyword">return</span> : <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>当调用<code>jedis.close();</code>后,池子里空闲的Jedis对象就多了1个, 可是如果我们注释掉这一行后的结果为<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">begin : <span class="number">0</span></span><br><span class="line">begin : <span class="number">0</span></span><br><span class="line">begin : <span class="number">0</span></span><br><span class="line">borrow : <span class="number">1</span></span><br><span class="line">borrow : <span class="number">0</span></span><br><span class="line">borrow : <span class="number">0</span></span><br><span class="line"><span class="keyword">return</span> : <span class="number">1</span></span><br><span class="line"><span class="keyword">return</span> : <span class="number">0</span></span><br><span class="line"><span class="keyword">return</span> : <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>我们发现那个Jedis仍然处于激活状态, 在Jedis 2.8.0版本以前当我们从池子里借用一个Jedis之后还需要将其还回去<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">(Jedis resource)</span> </span>&#123;</span><br><span class="line">    jedisPool.returnResource(resource);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是现在已经不需要了, 而且Jedis已经将这个<code>returnResource()</code>的方法舍弃掉了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** <span class="doctag">@deprecated</span> */</span></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">returnResource</span><span class="params">(Jedis resource)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(resource != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            resource.resetState();</span><br><span class="line">            <span class="keyword">this</span>.returnResourceObject(resource);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception var3) &#123;</span><br><span class="line">            <span class="keyword">this</span>.returnBrokenResource(resource);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> JedisException(<span class="string">"Could not return the resource to the pool"</span>, var3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来我们看一下多线程情况<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JedisTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        JedisPoolConfig jedisPoolConfig = <span class="keyword">new</span> JedisPoolConfig();</span><br><span class="line">        jedisPoolConfig.setMaxTotal(<span class="number">3</span>);</span><br><span class="line">        JedisPool pool = <span class="keyword">new</span> JedisPool(jedisPoolConfig, <span class="string">"10.1.4.110"</span>);</span><br><span class="line">        List&lt;Thread&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            Runnable runnable = () -&gt; &#123;</span><br><span class="line">                Jedis jedis = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    jedis = pool.getResource();</span><br><span class="line">                    <span class="keyword">int</span> sleep = <span class="keyword">new</span> Random().nextInt(<span class="number">5</span>);</span><br><span class="line">                    System.out.println(<span class="string">"sleep:"</span> + sleep + <span class="string">". time:"</span> + <span class="keyword">new</span> Date().toLocaleString() + <span class="string">". active: "</span> + pool.getNumActive() + <span class="string">". idle: "</span> + pool.getNumIdle());</span><br><span class="line"></span><br><span class="line">                    TimeUnit.SECONDS.sleep(sleep);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (jedis != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        jedis.close();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            list.add(<span class="keyword">new</span> Thread(runnable));</span><br><span class="line">        &#125;</span><br><span class="line">        list.forEach(thread -&gt; thread.start());</span><br><span class="line"></span><br><span class="line">        Thread.currentThread().join();</span><br><span class="line">        pool.destroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果为<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sleep:<span class="number">4</span>. time:<span class="number">2016</span>-<span class="number">3</span>-<span class="number">4</span> <span class="number">10</span>:<span class="number">04</span>:<span class="number">03</span>. active: <span class="number">3</span>. idle: <span class="number">0</span></span><br><span class="line">sleep:<span class="number">4</span>. time:<span class="number">2016</span>-<span class="number">3</span>-<span class="number">4</span> <span class="number">10</span>:<span class="number">04</span>:<span class="number">03</span>. active: <span class="number">3</span>. idle: <span class="number">0</span></span><br><span class="line">sleep:<span class="number">3</span>. time:<span class="number">2016</span>-<span class="number">3</span>-<span class="number">4</span> <span class="number">10</span>:<span class="number">04</span>:<span class="number">03</span>. active: <span class="number">3</span>. idle: <span class="number">0</span></span><br><span class="line">sleep:<span class="number">3</span>. time:<span class="number">2016</span>-<span class="number">3</span>-<span class="number">4</span> <span class="number">10</span>:<span class="number">04</span>:<span class="number">06</span>. active: <span class="number">3</span>. idle: <span class="number">0</span></span><br><span class="line">sleep:<span class="number">3</span>. time:<span class="number">2016</span>-<span class="number">3</span>-<span class="number">4</span> <span class="number">10</span>:<span class="number">04</span>:<span class="number">07</span>. active: <span class="number">2</span>. idle: <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Reids/">Reids</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/02/redis/jedis/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/02/redis/jedis/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/23/netty/Unsafe/" title="Netty Unsafe" itemprop="url">Netty Unsafe</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-22T16:00:00.000Z" itemprop="datePublished"> Published 2016-02-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>AbstractNioUnsafe<br>NioMessageUnsafe</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Netty/">Netty</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/23/netty/Unsafe/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/23/netty/Unsafe/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/22/netty/ServerBootstrap/" title="NettyServerBootstrap" itemprop="url">NettyServerBootstrap</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="ming15" target="_blank" itemprop="author">ming15</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-21T16:00:00.000Z" itemprop="datePublished"> Published 2016-02-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> io.netty.bootstrap.ServerBootstrap;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.*;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.nio.NioEventLoopGroup;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.SocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.channel.socket.nio.NioServerSocketChannel;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.logging.LogLevel;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.logging.LoggingHandler;</span><br><span class="line"><span class="keyword">import</span> io.netty.handler.timeout.IdleStateHandler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyServerBootstrap</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> cpuSize = Runtime.getRuntime().availableProcessors();</span><br><span class="line">		<span class="comment">// 配置服务端的NIO线程组</span></span><br><span class="line">		EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup();			<span class="comment">// mainReactor负责监听server socket,accept新连接</span></span><br><span class="line">		EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup(cpuSize);<span class="comment">// subReactor负责多路分离已连接的socket,读写网 络数据,对业务处理功能,其扔给worker线程池完成</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			ServerBootstrap b = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">			b.group(bossGroup, workerGroup)</span><br><span class="line">					<span class="comment">// 设置nio类型的channel,根据channel.class来实例化ChannelFactory对象</span></span><br><span class="line">					.channel(NioServerSocketChannel.class)</span><br><span class="line">					.option(ChannelOption.SO_BACKLOG, <span class="number">128</span>)</span><br><span class="line">					.option(ChannelOption.TCP_NODELAY, <span class="keyword">true</span>)</span><br><span class="line">					.option(ChannelOption.AUTO_READ, <span class="keyword">true</span>)</span><br><span class="line">					<span class="comment">// 设置AbstractBootstrap(bossGroup) handler,该handler每个ServerBootstrap 只有一个</span></span><br><span class="line">					.handler(<span class="keyword">new</span> LoggingHandler(LogLevel.INFO))</span><br><span class="line">					<span class="comment">//有连接到达时会创建一个channel</span></span><br><span class="line">					.childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">						<span class="meta">@Override</span></span><br><span class="line">						<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> </span>&#123;</span><br><span class="line">							<span class="comment">// pipeline管理channel中的Handler,在channel队列中添加一个handler来处理业务</span></span><br><span class="line">							ChannelPipeline pipeline = ch.pipeline();</span><br><span class="line"></span><br><span class="line">							pipeline.addLast(<span class="keyword">new</span> ProtobufVarint32FrameDecoder());</span><br><span class="line">							pipeline.addFirst(<span class="keyword">new</span> IdleStateHandler(<span class="number">5</span>, <span class="number">5</span>, <span class="number">10</span>));</span><br><span class="line"></span><br><span class="line">							pipeline.addLast(<span class="keyword">new</span> NioEventLoopGroup(<span class="number">128</span>), <span class="keyword">new</span> ProtobufVarint32FrameDecoder());</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 绑定端口,同步等待成功</span></span><br><span class="line">			ChannelFuture f = <span class="keyword">null</span>;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="comment">// 配置完成,开始绑定server,通过调用sync同步方法阻塞直到绑定成功</span></span><br><span class="line">				f = b.bind(<span class="number">8880</span>).sync();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="comment">// 优雅退出,释放线程池资源</span></span><br><span class="line">			<span class="comment">//关闭EventLoopGroup,释放掉所有资源包括创建的线程</span></span><br><span class="line">			bossGroup.shutdownGracefully();</span><br><span class="line">			workerGroup.shutdownGracefully();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Netty/">Netty</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/02/22/netty/ServerBootstrap/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/22/netty/ServerBootstrap/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github Card</p>
+<div class="github-card" data-github="ming15" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Groovy/" title="Groovy">Groovy<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Haskell/" title="Haskell">Haskell<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JMH/" title="JMH">JMH<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JVM/" title="JVM">JVM<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>28</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java工具/" title="Java工具">Java工具<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Netty/" title="Netty">Netty<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nginx/" title="Nginx">Nginx<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Php/" title="Php">Php<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Reids/" title="Reids">Reids<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/TCP-IP/" title="TCP IP">TCP IP<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ZooKeeper/" title="ZooKeeper">ZooKeeper<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/asm/" title="asm">asm<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/guice/" title="guice">guice<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/http客户端/" title="http客户端">http客户端<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/http服务器/" title="http服务器">http服务器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/linux/" title="linux">linux<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/memcached/" title="memcached">memcached<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mgits/" title="mgits">mgits<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mycat/" title="mycat">mycat<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python2/" title="python2">python2<sup>9</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/并发编程/" title="并发编程">并发编程<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/序列化工具/" title="序列化工具">序列化工具<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据库/" title="数据库">数据库<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/日志工具/" title="日志工具">日志工具<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/构建工具/" title="构建工具">构建工具<sup>3</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://www1.vertx3.cn" target="_blank" title="vertx3">vertx3</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">Douban Show</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/xxxyy/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3253370782&verifier=e9ca895b&dpc=1"></iframe>
+</div>
+
+
+  
+
+<div class="lofter">
+<p class="asidetitle">Lofter</p>
+
+ <iframe width="100%" height="39" class="share_self"  frameborder="0" scrolling="no" src="http://ming15.lofter.com/"></iframe>
+</div>
+
+
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> 博客,我选择重构 <br/>
+			重构使事情变得更美,更加正确</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/3253370782" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/ming15" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		<a href="https://www.douban.com/people/xxxyy" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/ming15" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="ming15">ming15</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"wanggnim"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F9e8fca440159a2125668804e46682db4' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>
